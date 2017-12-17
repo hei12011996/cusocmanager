@@ -14,7 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class NavActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
+
     NavigationView navigationView = null;
     Toolbar toolbar = null;
     @Override
@@ -24,7 +25,7 @@ public class NavActivity extends AppCompatActivity
 
         //Set the fragment initially
         NewsFragment fragment = new NewsFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
@@ -95,25 +96,33 @@ public class NavActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
             // Handle the camera action
-        } else if (id == R.id.nav_events) {
+        }
+        else if (id == R.id.nav_events) {
             EventsFragment fragment = new EventsFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_feedback) {
+        }
+        else if (id == R.id.nav_feedback) {
             FeedBackFragment fragment = new FeedBackFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_Login) {
+        }
+//        else if (id == R.id.nav_settings) {
+//
+//        }
+        else if (id == R.id.nav_Login) {
             LoginFragment fragment = new LoginFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_send) {
-
+        }
+        else if (id == R.id.nav_member_list) {
+            MemberListFragment fragment = new MemberListFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

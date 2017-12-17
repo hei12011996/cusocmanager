@@ -1,13 +1,19 @@
 <resources>
-    <string name="app_name">Cu Soc Manager</string>
+    <string name="app_name">CU Soc Manager</string>
+    <string name="google_sheet_API_key">AIzaSyCDR4wC8ViG4KhFtL4gImZNX58URtJ1zTA</string>
+    <string name="member_list_sheet">18LYcI3_Z9lr4N4ZKWXVpy-76ZtxBFwX6p6_E9QYv360</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_title_news">News</string>
+    <string name="nav_title_events">Apply Event</string>
+    <string name="nav_title_feedback">Feedback</string>
+    <string name="nav_section_manage">Manage</string>
+    <string name="nav_title_member_list">View Member List</string>
+
 
 
 </resources>
