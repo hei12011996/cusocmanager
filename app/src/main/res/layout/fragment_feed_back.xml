@@ -11,7 +11,7 @@
         android:textSize="25sp"
         android:text="Leave us comment"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/fab_margin"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:textColor="@color/colorPrimaryText"
@@ -35,9 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/feedback_topic"
         android:layout_alignBottom="@+id/feedback_topic"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_toEndOf="@+id/feedback_topic"
-        android:background="?android:attr/detailsElementBackground"></EditText>
+        android:background="#e6e5e5">
+    </EditText>
 
     <TextView
         android:id="@+id/feedback_description"
@@ -54,14 +55,16 @@
     <EditText
         android:id="@+id/feedback_description_edit"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignStart="@+id/feedback_description"
         android:layout_below="@+id/feedback_description"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginTop="10dp"
-        android:background="@android:color/background_light">
-
+        android:layout_marginBottom="@dimen/nav_header_height"
+        android:gravity="top"
+        android:background="#e6e5e5"
+        >
     </EditText>
     <Button
         android:id="@+id/feedback_button"
