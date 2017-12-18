@@ -187,8 +187,10 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
             action = "edit";
         }
         else if (id == R.id.action_delete_member){
-            removeMember();
-            action = "delete";
+            if (!mode.equals("create")){
+                removeMember();
+                action = "delete";
+            }
         }
         return true;
     }
