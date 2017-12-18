@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -41,21 +42,12 @@ public class NavActivity extends AppCompatActivity
         logoutOption = navigationMenu.findItem(R.id.nav_Logout);
         memberListOption = navigationMenu.findItem(R.id.nav_member_list);
 
-        //Get login information
+        //Get login information, change UI
         //preferenceEditor = sharedPreferences.edit();
         sharedPreferences = getApplicationContext().
             getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        hasLogin = sharedPreferences.getBoolean(getString(R.string.preference_user_has_login), false);
-        if (hasLogin) {
-            loginOption.setVisible(false);
-            logoutOption.setVisible(true);
-            memberListOption.setVisible(true);
-        }
-        else {
-            loginOption.setVisible(true);
-            logoutOption.setVisible(false);
-            memberListOption.setVisible(false);
-        }
+        setLoginStatus(sharedPreferences.getBoolean(getString(R.string.preference_user_has_login), false));
+        changeUIOnLoginStatus();
 
         //Set the fragment initially
         NewsFragment fragment = new NewsFragment();
@@ -159,10 +151,9 @@ public class NavActivity extends AppCompatActivity
                 preferenceEditor = sharedPreferences.edit();
                 preferenceEditor.putBoolean(getString(R.string.preference_user_has_login), false);
                 preferenceEditor.apply();
-                hasLogin = false;
-                //loginOption.setVisible(true);
-                // logoutOption.setVisible(false);
-                //memberListOption.setVisible(false);
+                setLoginStatus(false);
+                Toast.makeText(getApplicationContext(), "Logout successfully", Toast.LENGTH_SHORT).show();
+                changeUIOnLoginStatus();
             }
         }
         else if (id == R.id.nav_member_list) {
@@ -175,5 +166,26 @@ public class NavActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setLoginStatus(Boolean hasLogin) {
+        this.hasLogin = hasLogin;
+    }
+
+    public boolean getLoginStatus() {
+        return hasLogin;
+    }
+
+    public void changeUIOnLoginStatus() {
+        if (hasLogin) {
+            loginOption.setVisible(false);
+            logoutOption.setVisible(true);
+            memberListOption.setVisible(true);
+        }
+        else {
+            loginOption.setVisible(true);
+            logoutOption.setVisible(false);
+            memberListOption.setVisible(false);
+        }
     }
 }
