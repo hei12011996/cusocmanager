@@ -2,6 +2,7 @@ package csci3310gp10.cusocmanager;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -62,7 +65,24 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
     public void taskFinish(ArrayList<News> results){
         fullNewsList = new ArrayList<>(results);
 
-        adapter = new NewsItemAdapter(getContext(), 0, fullNewsList);
+        boolean detailPage = false; //false if this is newsFeed, not detailed ver
+        adapter = new NewsItemAdapter(getContext(), 0, fullNewsList, false);
         newsListView.setAdapter(adapter);
+
+        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                News news = (News)parent.getItemAtPosition(position);
+
+                NewsDetailFragment fragment = new NewsDetailFragment();
+                Bundle args = new Bundle();
+                args.putParcelable("item", news);
+                fragment.setArguments(args);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = NewsFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
+            }
+        });
     }
 }

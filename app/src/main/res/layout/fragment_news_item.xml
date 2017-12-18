@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:text="NewsTitle"
             android:textSize="18sp"
@@ -27,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:text="Description"
             android:textSize="15sp" />
@@ -39,6 +41,7 @@
         android:layout_below="@+id/infoSection"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <ImageView android:id="@+id/image"

@@ -31,11 +31,13 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
 
     private Context context;
     private ArrayList<News> newsList = new ArrayList<>();
+    private boolean detailed;
 
-    public NewsItemAdapter(Context context, int textViewResourceId, ArrayList<News> objects) {
+    public NewsItemAdapter(Context context, int textViewResourceId, ArrayList<News> objects, boolean detailed) {
         super(context, textViewResourceId, objects);
         this.context = context;
         this.newsList = objects;
+        this.detailed = detailed;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -54,8 +56,8 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
 
         //display trimmed excerpt for description
         int descriptionLength = news.getDescription().length();
-        if(descriptionLength >= 100){
-            String descriptionTrim = news.getDescription().substring(0, 100) + "...";
+        if(descriptionLength >= 100 && detailed == false){
+            String descriptionTrim = news.getDescription().substring(0, 100) + "...\nclick to view full text";
             description.setText(descriptionTrim);
         }else{
             description.setText(news.getDescription());
@@ -63,7 +65,6 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
 
         //set price and rental attributes
         newsTitle.setText(String.valueOf(news.getTitle()));
-        description.setText(String.valueOf(news.getDescription()));
         if (news.getImageUrl() == "null") {
             sectionLayout.removeAllViews();
         }
