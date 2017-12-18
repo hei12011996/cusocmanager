@@ -106,7 +106,7 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
             Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         else{
-            MakeMemberRequestTask updateTask = new MakeMemberRequestTask(this.getActivity(), "getAll", "Member_List");
+            MakeMemberRequestTask updateTask = new MakeMemberRequestTask(this.getActivity(), "update", "Member_List", member);
             updateTask.memberListResult = this;
             updateTask.execute();
         }

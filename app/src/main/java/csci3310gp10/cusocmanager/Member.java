@@ -128,6 +128,10 @@ public class Member implements Parcelable {
         this.email = email;
     }
 
+    public Object[] toArray(){
+        return new Object[] {this.chinese_name, this.english_name, this.sid, this.college, this.major_year, this.phone, this.email};
+    }
+
     @Override
     public int describeContents() {
         // TODO Auto-generated method stub

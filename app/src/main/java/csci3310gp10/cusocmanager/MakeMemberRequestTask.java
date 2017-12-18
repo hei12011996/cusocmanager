@@ -9,14 +9,27 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,9 +37,12 @@ import java.util.List;
  * Placing the API calls in their own task ensures the UI stays responsive.
  */
 public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Member>> {
+    private static final String CLIENT_ID = "cu-soc-manager@excellent-tide-188914.iam.gserviceaccount.com";
     private com.google.api.services.sheets.v4.Sheets mService = null;
     private Exception mLastError = null;
     private Context context = null;
+    private Member member = null;
+    private String spreadsheetId = "";
     private String command = "getAll";
     private String range = "Member_List";
     public RequestTaskResult<ArrayList<Member>> memberListResult = null;
@@ -35,12 +51,64 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         this.context = context;
         this.command = command;
         this.range = range;
+        this.spreadsheetId = context.getString(R.string.member_list_sheet_id);
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         mService = new com.google.api.services.sheets.v4.Sheets.Builder(
                 transport, jsonFactory, null)
                 .setApplicationName("Cu Soc Manager")
                 .build();
+    }
+
+    MakeMemberRequestTask(Context context, String command, String range, Member member) {
+        this.context = context;
+        this.command = command;
+        this.range = range;
+        this.member = member;
+        this.spreadsheetId = context.getString(R.string.member_list_sheet_id);
+        HttpTransport transport = AndroidHttp.newCompatibleTransport();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        try {
+            mService = new com.google.api.services.sheets.v4.Sheets.Builder(
+                    transport, jsonFactory, getCredentials())
+                    .setApplicationName("Cu Soc Manager")
+                    .build();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getTempPkc12File() throws IOException {
+        InputStream pkc12Stream = context.getAssets().open("Cu Soc Manager-121ee0a1ad27.p12");
+        File tempPkc12File = File.createTempFile("P12File", "p12");
+        OutputStream tempFileStream = new FileOutputStream(tempPkc12File);
+
+        int read = 0;
+        byte[] bytes = new byte[1024];
+        while ((read = pkc12Stream.read(bytes)) != -1) {
+            tempFileStream.write(bytes, 0, read);
+        }
+        return tempPkc12File;
+    }
+
+    private GoogleCredential getCredentials() throws GeneralSecurityException,
+            IOException, URISyntaxException {
+        List<String> SCOPES = Arrays.asList(SheetsScopes.SPREADSHEETS);
+        JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+        HttpTransport httpTransport = new ApacheHttpTransport();
+
+        GoogleCredential credential = new GoogleCredential.Builder()
+                .setTransport(httpTransport)
+                .setJsonFactory(JSON_FACTORY)
+                .setServiceAccountId(CLIENT_ID)
+                .setServiceAccountPrivateKeyFromP12File(getTempPkc12File())
+                .setServiceAccountScopes(SCOPES).build();
+
+        return credential;
     }
 
     /**
@@ -53,6 +121,8 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
             switch(command){
                 case "getAll":
                     return getFullMemberListFromAPI();
+                case "update":
+                    return updateMemberToAPI();
                 default:
                     return getFullMemberListFromAPI();
             }
@@ -70,10 +140,9 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
          * @throws IOException
          */
     private ArrayList<Member> getFullMemberListFromAPI() throws IOException {
-        String member_list_sheet_id = context.getString(R.string.member_list_sheet_id);
         ArrayList<Member> results = new ArrayList<Member>();
         ValueRange response = this.mService.spreadsheets().values()
-                .get(member_list_sheet_id, range)
+                .get(spreadsheetId, range)
                 .setKey(context.getString(R.string.google_sheet_API_key))
                 .execute();
         List<List<Object>> values = response.getValues();
@@ -95,6 +164,22 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         return results;
     }
 
+    private ArrayList<Member> updateMemberToAPI() throws IOException{
+        ArrayList<Member> results = new ArrayList<Member>();
+        List<List<Object>> values = Arrays.asList(
+                Arrays.asList(member.toArray())
+        );
+        ValueRange body = new ValueRange()
+                .setValues(values);
+        this.range = String.valueOf(member.getRow() + 1) + ":" + String.valueOf(member.getRow() + 1) ;
+        UpdateValuesResponse result = this.mService.spreadsheets().values().update(spreadsheetId, range, body)
+                .setValueInputOption("USER_ENTERED")
+                .setKey(context.getString(R.string.google_sheet_API_key))
+                .execute();
+        results.add(this.member);
+        return results;
+    }
+
     @Override
     protected void onPreExecute() {
     }
@@ -104,7 +189,6 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         this.memberListResult.taskFinish(output);
         if (output == null || output.size() == 0) {
             Toast.makeText(context, "No results returned.", Toast.LENGTH_SHORT).show();
-//            System.out.println("No results returned.");
         }
     }
 
@@ -112,11 +196,9 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
     protected void onCancelled() {
         if (mLastError != null) {
             Toast.makeText(context, "The following error occurred:\n" + mLastError.getMessage(), Toast.LENGTH_SHORT).show();
-//            System.out.println("The following error occurred:\n" + mLastError.getMessage());
         }
         else {
             Toast.makeText(context, "Request cancelled.", Toast.LENGTH_SHORT).show();
-//            System.out.println("Request cancelled.");
         }
     }
 }
