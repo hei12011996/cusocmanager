@@ -62,7 +62,7 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
         }
 
         //set price and rental attributes
-        newsTitle.setText(String.valueOf(news.getNewsTitle()));
+        newsTitle.setText(String.valueOf(news.getTitle()));
         description.setText(String.valueOf(news.getDescription()));
         if (news.getImageUrl() == null) {
             sectionLayout.removeAllViews();
