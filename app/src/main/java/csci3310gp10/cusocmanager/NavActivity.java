@@ -1,10 +1,11 @@
 package csci3310gp10.cusocmanager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,16 +13,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
+    Menu navigationMenu = null;
+    MenuItem loginOption = null;
+    MenuItem logoutOption = null;
+    MenuItem memberListOption = null;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor preferenceEditor;
+
+    Boolean hasLogin = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationMenu = navigationView.getMenu();
+        loginOption = navigationMenu.findItem(R.id.nav_Login);
+        logoutOption = navigationMenu.findItem(R.id.nav_Logout);
+        memberListOption = navigationMenu.findItem(R.id.nav_member_list);
+
+        //Get login information
+        //preferenceEditor = sharedPreferences.edit();
+        sharedPreferences = getApplicationContext().
+            getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        hasLogin = sharedPreferences.getBoolean(getString(R.string.preference_user_has_login), false);
+        if (hasLogin) {
+            loginOption.setVisible(false);
+            logoutOption.setVisible(true);
+            memberListOption.setVisible(true);
+        }
+        else {
+            loginOption.setVisible(true);
+            logoutOption.setVisible(false);
+            memberListOption.setVisible(false);
+        }
 
         //Set the fragment initially
         NewsFragment fragment = new NewsFragment();
@@ -118,9 +152,22 @@ public class NavActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
+        else if (id == R.id.nav_Logout) {
+            if (hasLogin) {
+                sharedPreferences = getApplicationContext().
+                        getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                preferenceEditor = sharedPreferences.edit();
+                preferenceEditor.putBoolean(getString(R.string.preference_user_has_login), false);
+                preferenceEditor.apply();
+                hasLogin = false;
+                //loginOption.setVisible(true);
+                // logoutOption.setVisible(false);
+                //memberListOption.setVisible(false);
+            }
+        }
         else if (id == R.id.nav_member_list) {
             MemberListFragment fragment = new MemberListFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
