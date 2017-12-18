@@ -64,7 +64,7 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
         //set price and rental attributes
         newsTitle.setText(String.valueOf(news.getTitle()));
         description.setText(String.valueOf(news.getDescription()));
-        if (news.getImageUrl() == null) {
+        if (news.getImageUrl() == "null") {
             sectionLayout.removeAllViews();
         }
         else {
@@ -76,19 +76,21 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
     }
 
     private void loadImageFromUrl (String url, Context content, ImageView imageView){
-        Picasso.with(context).load(url).placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .into(imageView, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(url.length() != 0) {
+            Picasso.with(context).load(url).placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .into(imageView, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onError() {
+                        @Override
+                        public void onError() {
 
-                    }
-                });
+                        }
+                    });
+        }
     }
 }
 

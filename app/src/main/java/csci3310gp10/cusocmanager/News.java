@@ -46,7 +46,6 @@ public class News implements Parcelable {
         this.description = description;
         this.image_url = image_url;
         this.timestamp = timestamp;
-        this.timestamp = "20170107235959";
     }
 
     public Integer getRow() {

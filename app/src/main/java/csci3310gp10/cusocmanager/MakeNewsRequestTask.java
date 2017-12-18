@@ -69,7 +69,7 @@ public class MakeNewsRequestTask extends AsyncTask<Void, Void, ArrayList<News>> 
          * @throws IOException
          */
     private ArrayList<News> getFullNewsListFromAPI() throws IOException {
-        String member_list_sheet_id = context.getString(R.string.member_list_sheet_id);
+        String member_list_sheet_id = context.getString(R.string.news_list_sheet_id);
         ArrayList<News> results = new ArrayList<News>();
         ValueRange response = this.mService.spreadsheets().values()
                 .get(member_list_sheet_id, range)

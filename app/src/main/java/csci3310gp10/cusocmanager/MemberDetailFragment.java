@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,20 +15,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MemberDetailFragment extends Fragment implements RequestTaskResult<ArrayList<Member>>{
-    private GoogleAccountCredential mCredential;
-    private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
     private Member member = null;
     EditText chinese_name_text = null;
@@ -63,9 +57,6 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
         closeAllTextEdit();
         insertMemberInfo();
 
-        mCredential = GoogleAccountCredential.usingOAuth2(
-                this.getActivity().getApplicationContext(), Arrays.asList(SCOPES))
-                .setBackOff(new ExponentialBackOff());
         // Inflate the layout for this fragment
         return view;
     }
