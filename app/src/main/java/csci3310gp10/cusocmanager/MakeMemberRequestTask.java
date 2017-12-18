@@ -21,10 +21,13 @@ import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
 import com.google.api.services.sheets.v4.model.BatchUpdateValuesResponse;
+import com.google.api.services.sheets.v4.model.DeleteDimensionRequest;
+import com.google.api.services.sheets.v4.model.DimensionRange;
 import com.google.api.services.sheets.v4.model.GridRange;
 import com.google.api.services.sheets.v4.model.Request;
 import com.google.api.services.sheets.v4.model.SortRangeRequest;
 import com.google.api.services.sheets.v4.model.SortSpec;
+import com.google.api.services.sheets.v4.model.Spreadsheet;
 import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
@@ -129,13 +132,15 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         try {
             switch(command){
                 case "getAll":
-                    return getFullMemberListFromAPI();
+                    return getFullMemberListFromSheet();
                 case "update":
-                    return updateMemberToAPI();
+                    return updateMemberToSheet();
                 case "create":
-                    return appendMemberToAPI();
+                    return appendMemberToSheet();
+                case "delete":
+                    return removeMemberFromSheet();
                 default:
-                    return getFullMemberListFromAPI();
+                    return getFullMemberListFromSheet();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,7 +155,7 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
          * @return List of members
          * @throws IOException
          */
-    private ArrayList<Member> getFullMemberListFromAPI() throws IOException {
+    private ArrayList<Member> getFullMemberListFromSheet() throws IOException {
         ArrayList<Member> results = new ArrayList<Member>();
         ValueRange response = this.mService.spreadsheets().values()
                 .get(spreadsheetId, range)
@@ -175,7 +180,7 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         return results;
     }
 
-    private ArrayList<Member> updateMemberToAPI() throws IOException{
+    private ArrayList<Member> updateMemberToSheet() throws IOException{
         ArrayList<Member> results = new ArrayList<Member>();
         List<List<Object>> values = Arrays.asList(
                 Arrays.asList(member.toArray())
@@ -184,14 +189,13 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         this.range = String.valueOf(member.getRow() + 1) + ":" + String.valueOf(member.getRow() + 1) ;
         UpdateValuesResponse result = this.mService.spreadsheets().values().update(spreadsheetId, range, body)
                 .setValueInputOption("USER_ENTERED")
-                .setKey(context.getString(R.string.google_sheet_API_key))
                 .execute();
         results.add(this.member);
-        affectedRow = result.getUpdatedCells();
+        affectedRow = result.getUpdatedRows();
         return results;
     }
 
-    private ArrayList<Member> appendMemberToAPI() throws IOException{
+    private ArrayList<Member> appendMemberToSheet() throws IOException{
         ArrayList<Member> results = new ArrayList<Member>();
         List<List<Object>> values = Arrays.asList(
                 Arrays.asList(member.toArray())
@@ -200,11 +204,27 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         this.range = String.valueOf(member.getRow() + 1) + ":" + String.valueOf(member.getRow() + 1) ;
         AppendValuesResponse result = this.mService.spreadsheets().values().append(spreadsheetId, range, body)
                 .setValueInputOption("USER_ENTERED")
-                .setKey(context.getString(R.string.google_sheet_API_key))
                 .execute();
         sortMemberListViaAPI();
         results.add(this.member);
-        affectedRow = result.getUpdates().getUpdatedCells();
+        affectedRow = result.getUpdates().getUpdatedRows();
+        return results;
+    }
+
+    private ArrayList<Member> removeMemberFromSheet() throws IOException{
+        ArrayList<Member> results = new ArrayList<Member>();
+        Member empty_member = new Member(member.getRow());
+        List<List<Object>> values = Arrays.asList(
+                Arrays.asList(empty_member.toArray())
+        );
+        ValueRange body = new ValueRange().setValues(values);
+        this.range = String.valueOf(member.getRow() + 1) + ":" + String.valueOf(member.getRow() + 1) ;
+        UpdateValuesResponse result = this.mService.spreadsheets().values().update(spreadsheetId, range, body)
+                .setValueInputOption("USER_ENTERED")
+                .execute();
+        sortMemberListViaAPI();
+        results.add(this.member);
+        affectedRow = result.getUpdatedRows();
         return results;
     }
 
@@ -237,11 +257,14 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         if (output == null || output.size() == 0) {
             Toast.makeText(context, "No results returned.", Toast.LENGTH_SHORT).show();
         }
-        else if (command == "update" && affectedRow == 1){
-            Toast.makeText(context, "Update member info success!", Toast.LENGTH_SHORT).show();
+        else if (command.equals("update") && affectedRow == 1){
+            Toast.makeText(context, "Information of " + member.getEnglishName() + " has been updated.", Toast.LENGTH_SHORT).show();
         }
-        else if (command == "create" && affectedRow == 1){
-            Toast.makeText(context, "Create member success!", Toast.LENGTH_SHORT).show();
+        else if (command.equals("create") && affectedRow == 1){
+            Toast.makeText(context, member.getEnglishName() + " is added to member list successfully.", Toast.LENGTH_SHORT).show();
+        }
+        else if (command.equals("delete") && affectedRow == 1){
+            Toast.makeText(context, "Member " + member.getEnglishName() + " is removed successfully.", Toast.LENGTH_SHORT).show();
         }
     }
 

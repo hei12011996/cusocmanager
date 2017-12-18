@@ -40,17 +40,24 @@ public class Member implements Parcelable {
 
     public Member(Integer row){
         this.row = row;
+        this.chinese_name = "";
+        this.english_name = "";
+        this.sid = "";
+        this.college = "";
+        this.major_year = "";
+        this.phone = "";
+        this.email = "";
     }
 
     public Member(){
-        this.row = null;
-        this.chinese_name = null;
-        this.english_name = null;
-        this.sid = null;
-        this.college = null;
-        this.major_year = null;
-        this.phone = null;
-        this.email = null;
+        this.row = -1;
+        this.chinese_name = "";
+        this.english_name = "";
+        this.sid = "";
+        this.college = "";
+        this.major_year = "";
+        this.phone = "";
+        this.email = "";
     }
 
     public Member(Integer row, String chinese_name, String english_name, String sid, String college, String major_year, String phone, String email){

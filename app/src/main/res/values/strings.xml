@@ -12,7 +12,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_edit_member">Edit Info</string>
-    <string name="action_delete_member">Delete Member</string>
+    <string name="action_delete_member">Remove Member</string>
     <string name="action_save_member">Update Info</string>
 
     <string name="nav_title_news">News</string>

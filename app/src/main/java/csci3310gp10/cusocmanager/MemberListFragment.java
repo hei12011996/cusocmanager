@@ -6,6 +6,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -53,6 +55,7 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
                 MemberDetailFragment fragment = new MemberDetailFragment();
                 Bundle args = new Bundle();
                 args.putParcelable("member", fullMemberList.get(Arrays.asList(memberBasicInfoList).indexOf(listView.getItemAtPosition(position))));
+                args.putString("mode", "view");
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = MemberListFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -77,6 +80,21 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
 
             @Override
             public void afterTextChanged(Editable arg0) {
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MemberDetailFragment fragment = new MemberDetailFragment();
+                Bundle args = new Bundle();
+                args.putString("mode", "create");
+                args.putInt("last_row", fullMemberList.size());
+                fragment.setArguments(args);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = MemberListFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
             }
         });
 
