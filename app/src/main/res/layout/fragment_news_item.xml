@@ -19,7 +19,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="NewsTitle"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryText"/>
 
         <TextView
             android:id="@+id/description"
@@ -32,28 +33,28 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/pricingSection"
+        android:id="@+id/section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/infoSection"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/imageUrl"
-            android:layout_width="match_parent"
+        <ImageView android:id="@+id/image"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Image Link" />
-
-        <TextView
-            android:id="@+id/timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imageUrl"
-            android:layout_marginRight="15dp"
-            android:text="Time Posted" />
+            android:layout_width="fill_parent"
+            android:maxWidth="42dp"
+            android:maxHeight="42dp"
+            android:scaleType="fitCenter"  />
 
     </RelativeLayout>
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/section"
+        android:layout_marginLeft="20dp"
+        android:text="Time Posted" />
 
 </RelativeLayout>

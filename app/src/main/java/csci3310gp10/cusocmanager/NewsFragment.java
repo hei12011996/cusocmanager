@@ -43,8 +43,8 @@ public class NewsFragment extends Fragment {
                 );
 */
         ArrayList<News> news = new ArrayList<>();
-        news.add(new News("Welcome to Japanese Soc", "this is a very good soc ar, have japanese nui nui", null));
-        news.add(new News("Welcome to Japanese Soc", "this is a very good soc ar, have japanese nui nui", "www.thisav.com"));
+        news.add(new News("Welcome to Japanese Soc", "this is a very good soc ar, have japanese nui nui", "https://pbs.twimg.com/media/DRGhvyFUMAAROf7.jpg"));
+        news.add(new News("Welcome to Japanese Soc", "this is a very good soc ar, have japanese nui nui", "https://pbs.twimg.com/media/CkriQVTVAAQ_Xnf.jpg"));
         ArrayAdapter<News> adapter = new NewsItemAdapter(getContext(), 0, news);
 
         ListView newsListView = (ListView) view.findViewById(R.id.newsList);
