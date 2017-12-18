@@ -17,6 +17,14 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.AppendValuesResponse;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
+import com.google.api.services.sheets.v4.model.BatchUpdateValuesResponse;
+import com.google.api.services.sheets.v4.model.GridRange;
+import com.google.api.services.sheets.v4.model.Request;
+import com.google.api.services.sheets.v4.model.SortRangeRequest;
+import com.google.api.services.sheets.v4.model.SortSpec;
 import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
@@ -45,6 +53,7 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
     private String spreadsheetId = "";
     private String command = "getAll";
     private String range = "Member_List";
+    private Integer affectedRow = 0;
     public RequestTaskResult<ArrayList<Member>> memberListResult = null;
 
     MakeMemberRequestTask(Context context, String command, String range) {
@@ -123,6 +132,8 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
                     return getFullMemberListFromAPI();
                 case "update":
                     return updateMemberToAPI();
+                case "create":
+                    return appendMemberToAPI();
                 default:
                     return getFullMemberListFromAPI();
             }
@@ -169,15 +180,51 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         List<List<Object>> values = Arrays.asList(
                 Arrays.asList(member.toArray())
         );
-        ValueRange body = new ValueRange()
-                .setValues(values);
+        ValueRange body = new ValueRange().setValues(values);
         this.range = String.valueOf(member.getRow() + 1) + ":" + String.valueOf(member.getRow() + 1) ;
         UpdateValuesResponse result = this.mService.spreadsheets().values().update(spreadsheetId, range, body)
                 .setValueInputOption("USER_ENTERED")
                 .setKey(context.getString(R.string.google_sheet_API_key))
                 .execute();
         results.add(this.member);
+        affectedRow = result.getUpdatedCells();
         return results;
+    }
+
+    private ArrayList<Member> appendMemberToAPI() throws IOException{
+        ArrayList<Member> results = new ArrayList<Member>();
+        List<List<Object>> values = Arrays.asList(
+                Arrays.asList(member.toArray())
+        );
+        ValueRange body = new ValueRange().setValues(values);
+        this.range = String.valueOf(member.getRow() + 1) + ":" + String.valueOf(member.getRow() + 1) ;
+        AppendValuesResponse result = this.mService.spreadsheets().values().append(spreadsheetId, range, body)
+                .setValueInputOption("USER_ENTERED")
+                .setKey(context.getString(R.string.google_sheet_API_key))
+                .execute();
+        sortMemberListViaAPI();
+        results.add(this.member);
+        affectedRow = result.getUpdates().getUpdatedCells();
+        return results;
+    }
+
+    private void sortMemberListViaAPI() throws IOException{
+        BatchUpdateSpreadsheetRequest batch_update_request = new BatchUpdateSpreadsheetRequest();
+        SortSpec sort_spec = new SortSpec();
+        sort_spec.setSortOrder("ASCENDING");
+        sort_spec.setDimensionIndex(1);
+        GridRange grid_range = new GridRange();
+        grid_range.setStartRowIndex(1);
+        SortRangeRequest sort_range_request = new SortRangeRequest();
+        sort_range_request.setSortSpecs(Arrays.asList(sort_spec));
+        sort_range_request.setRange(grid_range);
+        Request req = new Request();
+        req.setSortRange(sort_range_request);
+        batch_update_request.setRequests(Arrays.asList(req));
+
+        BatchUpdateSpreadsheetResponse result = this.mService.spreadsheets().batchUpdate(spreadsheetId, batch_update_request)
+                .setKey(context.getString(R.string.google_sheet_API_key))
+                .execute();
     }
 
     @Override
@@ -189,6 +236,12 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         this.memberListResult.taskFinish(output);
         if (output == null || output.size() == 0) {
             Toast.makeText(context, "No results returned.", Toast.LENGTH_SHORT).show();
+        }
+        else if (command == "update" && affectedRow == 1){
+            Toast.makeText(context, "Update member info success!", Toast.LENGTH_SHORT).show();
+        }
+        else if (command == "create" && affectedRow == 1){
+            Toast.makeText(context, "Create member success!", Toast.LENGTH_SHORT).show();
         }
     }
 
