@@ -11,7 +11,7 @@
         android:padding="8dp"
         android:textColor="#ffffff"
         android:background="@color/colorPrimary"
-        android:id="@+id/textView"
+        android:id="@+id/loginButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         />

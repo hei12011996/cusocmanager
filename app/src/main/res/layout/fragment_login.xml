@@ -5,15 +5,58 @@
     tools:context="csci3310gp10.cusocmanager.LoginFragment">
 
     <Button
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
-        android:padding="8dp"
-        android:textColor="#fff"
-        android:background="@color/colorPrimary"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_marginBottom="120dp"
+        android:background="@color/colorPrimary"
+        android:padding="8dp"
+        android:text="@string/login_button_label"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/passwordEditText"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="17dp"
+        android:layout_marginStart="28dp"
+        android:text="@string/login_label_username"
+        android:textAlignment="textEnd"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/passwordTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/loginButton"
+        android:layout_alignStart="@+id/usernameTextView"
+        android:layout_marginBottom="93dp"
+        android:text="@string/login_label_password"
+        android:textAlignment="textEnd"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/usernameTextView"
+        android:layout_alignStart="@+id/passwordEditText"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:singleLine="false"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:layout_alignBottom="@+id/passwordTextView"
+        android:layout_alignStart="@+id/loginButton" />
 
 </RelativeLayout>
