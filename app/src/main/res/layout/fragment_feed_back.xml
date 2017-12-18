@@ -8,15 +8,14 @@
         android:id="@+id/feedback_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="Leave us comment"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/colorPrimaryText"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-smallcaps"
-        />
+        android:text="@string/feedback_title"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="25sp" />
     <TextView
         android:id="@+id/feedback_topic"
         android:layout_width="wrap_content"
@@ -66,16 +65,16 @@
         android:background="#e6e5e5"
         >
     </EditText>
+
     <Button
         android:id="@+id/feedback_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:padding="8dp"
-        android:textColor="#ffffff"
+        android:layout_alignEnd="@+id/feedback_description_edit"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="55dp"
         android:background="@color/colorPrimary"
-        android:layout_marginTop="122dp"
-        android:layout_below="@+id/feedback_description_edit"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp" />
+        android:padding="8dp"
+        android:text="@string/feedback_send_button_label"
+        android:textColor="#ffffff" />
 </RelativeLayout>

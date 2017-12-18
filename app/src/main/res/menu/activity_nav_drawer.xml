@@ -22,6 +22,10 @@
             <menu>
                 <group android:checkableBehavior="single">
                     <item
+                    android:id="@+id/nav_member_list"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="@string/nav_title_member_list" />
+                    <item
                         android:id="@+id/nav_Login"
                         android:icon="@drawable/ic_account_circle"
                         android:title="@string/nav_title_login" />
@@ -29,10 +33,7 @@
                         android:id="@+id/nav_Logout"
                         android:icon="@drawable/ic_account_circle"
                         android:title="@string/nav_title_logout" />
-                    <item
-                        android:id="@+id/nav_member_list"
-                        android:icon="@drawable/ic_menu_send"
-                        android:title="@string/nav_title_member_list" />
+
                 </group>
             </menu>
         </item>

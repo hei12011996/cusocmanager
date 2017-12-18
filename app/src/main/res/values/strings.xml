@@ -3,6 +3,7 @@
     <string name="google_sheet_API_key">AIzaSyCDR4wC8ViG4KhFtL4gImZNX58URtJ1zTA</string>
     <string name="member_list_sheet_id">18LYcI3_Z9lr4N4ZKWXVpy-76ZtxBFwX6p6_E9QYv360</string>
     <string name="news_list_sheet_id">1oaUtVtP--NdDh3dMQ_YQFZcAy1IRxuXnpxpi1qrHJmU</string>
+    <string name="feedback_list_sheet_id">1hMZ1WEz7wcWrZ02tgDae7wX5XMDDxBbfdFEibsRtzXo</string>
 
     <string name="preference_file_key">csci3310gp10.cusocmanager.APP_INTERNAL_FILE</string>
     <string name="preference_user_has_login">hasLogin</string>
@@ -28,6 +29,9 @@
     <string name="login_hint_username">Name</string>
     <string name="login_hint_password">Password</string>
     <string name="login_button_label">LOGIN</string>
+
+    <string name="feedback_title">Leave us comment</string>
+    <string name="feedback_send_button_label">SEND</string>
 
 
 

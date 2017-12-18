@@ -18,12 +18,12 @@ import android.widget.Toast;
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends Fragment {
-    View view;
-    Button loginButton;
-    EditText username;
-    EditText password;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+    public View view;
+    public Button loginButton;
+    public EditText username;
+    public EditText password;
+    public SharedPreferences sharedPref;
+    public SharedPreferences.Editor editor;
 
     public LoginFragment() {
         // Required empty public constructor
