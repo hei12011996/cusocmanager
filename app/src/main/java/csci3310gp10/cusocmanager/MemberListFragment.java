@@ -24,13 +24,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -53,7 +53,7 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
     private String[] memberBasicInfoList;
     private ListView listView;
     private EditText inputSearch;
-    ArrayAdapter<String> adapter;
+    CustomArrayAdapter<String> adapter;
 
     public MemberListFragment() {
         // Required empty public constructor
@@ -89,18 +89,16 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                adapter.getFilter().filter(cs);
+                String text = cs.toString().toLowerCase(Locale.getDefault());
+                adapter.getFilter().filter(text);
             }
 
             @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-                // TODO Auto-generated method stub
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -282,9 +280,9 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
         memberBasicInfoList = new String[results.size()];
         for(int i = 0; i < fullMemberList.size(); i++){
             Member member = fullMemberList.get(i);
-            memberBasicInfoList[i] = member.getChineseName() + "," + member.getEnglishName() + "," + member.getSID();
+            memberBasicInfoList[i] =  member.getChineseName() + ", " + member.getEnglishName() + ", " + member.getSID();
         }
-        adapter = new ArrayAdapter<>(MemberListFragment.this.getActivity(), R.layout.list_item, R.id.member_basic_info, memberBasicInfoList);
+        adapter = new CustomArrayAdapter<>(MemberListFragment.this.getActivity(), R.layout.list_item, R.id.member_basic_info, memberBasicInfoList);
         listView.setAdapter(adapter);
     }
 }

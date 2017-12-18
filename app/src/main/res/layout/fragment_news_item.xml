@@ -16,6 +16,7 @@
             android:id="@+id/newsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="NewsTitle"
             android:textSize="18sp" />
@@ -24,6 +25,7 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="Description"
             android:textSize="15sp" />
@@ -34,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/infoSection"
+        android:layout_marginLeft="20dp"
         android:orientation="vertical">
 
         <TextView

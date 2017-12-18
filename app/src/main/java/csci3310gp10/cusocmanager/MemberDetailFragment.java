@@ -41,7 +41,7 @@ public class MemberDetailFragment extends Fragment {
         major_year_text = (EditText) view.findViewById(R.id.major_year_text);
         phone_text = (EditText) view.findViewById(R.id.phone_text);
         email_text = (EditText) view.findViewById(R.id.email_text);
-//        closeAllTextEdit();
+        closeAllTextEdit();
         insertMemberInfo();
 
         // Inflate the layout for this fragment
