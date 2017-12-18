@@ -6,6 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -18,12 +22,37 @@ public class NewsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
+/*
+        ArrayList<String> cheeses = new ArrayList<>();
+        cheeses.add("Parmesan");
+        cheeses.add("Ricotta");
+        cheeses.add("Fontina");
+        cheeses.add("Mozzarella");
+
+        ArrayAdapter<String> cheeseAdapter =
+                new ArrayAdapter<String>(
+                        getContext(),
+                        android.R.layout.simple_list_item_1,
+                        cheeses
+                );
+*/
+        ArrayList<News> news = new ArrayList<>();
+        news.add(new News("Welcome to Japanese Soc", "this is a very good soc ar, have japanese nui nui", null));
+        news.add(new News("Welcome to Japanese Soc", "this is a very good soc ar, have japanese nui nui", "www.thisav.com"));
+        ArrayAdapter<News> adapter = new NewsItemAdapter(getContext(), 0, news);
+
+        ListView newsListView = (ListView) view.findViewById(R.id.newsList);
+        newsListView.setAdapter(adapter);
+
+        return view;
     }
+
+
 
 }
