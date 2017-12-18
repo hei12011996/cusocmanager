@@ -12,6 +12,7 @@ public class News implements Parcelable {
     private String title;
     private String description;
     private String image_url;
+    private Boolean isEvent;
     private String timestamp;
 
     public static final Creator CREATOR = new Creator(){
@@ -22,6 +23,7 @@ public class News implements Parcelable {
             news.setTitle(source.readString());
             news.setDescription(source.readString());
             news.setImageUrl(source.readString());
+            news.setIsEvent((source.readInt() == 0) ? false : true);
             news.setTimeStamp(source.readString());
             return news;
         }
@@ -37,14 +39,16 @@ public class News implements Parcelable {
         this.title = null;
         this.description = null;
         this.image_url = null;
+        this.isEvent = null;
         this.timestamp = null;
     }
 
-    public News(Integer row, String title, String description, String image_url, String timestamp) {
+    public News(Integer row, String title, String description, String image_url, Boolean isEvent, String timestamp) {
         this.row = row;
         this.title = title;
         this.description = description;
         this.image_url = image_url;
+        this.isEvent = isEvent;
         this.timestamp = timestamp;
     }
 
@@ -60,6 +64,7 @@ public class News implements Parcelable {
     public String getImageUrl() {
         return this.image_url;
     }
+    public Boolean getIsEvent() { return this.isEvent; }
     public String getTimeStamp() {
         return this.timestamp;
     }
@@ -76,6 +81,7 @@ public class News implements Parcelable {
     public void setImageUrl(String image_url) {
         this.image_url = image_url;
     }
+    public void setIsEvent(Boolean isEvent) {this.isEvent = isEvent; }
     public void setTimeStamp(String timestamp) {
         this.timestamp = timestamp;
     }
@@ -92,6 +98,7 @@ public class News implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(image_url);
+        dest.writeInt((isEvent ? 1:0));
         dest.writeString(timestamp);
     }
 }

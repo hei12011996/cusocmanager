@@ -83,8 +83,14 @@ public class MakeNewsRequestTask extends AsyncTask<Void, Void, ArrayList<News>> 
                 String title = String.valueOf(row.get(0));
                 String description = String.valueOf(row.get(1));
                 String image_url = String.valueOf(row.get(2));
-                String timestamp = String.valueOf(row.get(3));
-                News news = new News(i, title, description, image_url, timestamp);
+                String event = String.valueOf(row.get(3));
+                String timestamp = String.valueOf(row.get(4));
+
+                Boolean isEvent = false;
+                if (event.equals("Y")) {
+                    isEvent = true;
+                }
+                News news = new News(i, title, description, image_url, isEvent, timestamp);
                 results.add(news);
             }
         }

@@ -32,13 +32,13 @@ import java.util.Locale;
  * Created by User on 18/12/2017.
  */
 
-public class NewsItemAdapter extends ArrayAdapter<News> {
+public class EventsItemAdapter extends ArrayAdapter<News> {
 
     private Context context;
     private ArrayList<News> newsList = new ArrayList<>();
     private boolean detailed;
 
-    public NewsItemAdapter(Context context, int textViewResourceId, ArrayList<News> objects, boolean detailed) {
+    public EventsItemAdapter(Context context, int textViewResourceId, ArrayList<News> objects, boolean detailed) {
         super(context, textViewResourceId, objects);
         this.context = context;
         this.newsList = objects;
@@ -52,7 +52,12 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
         //get the inflater and inflate the XML layout for each item
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.fragment_news_item, null);
-        RelativeLayout sectionLayout = (RelativeLayout) view.findViewById(R.id.section);
+        RelativeLayout allLayout = (RelativeLayout) view.findViewById(R.id.allSection);
+
+        if(news.getIsEvent() == false) {
+            allLayout.removeAllViews();
+            return view;
+        }
 
         TextView newsTitle = (TextView) view.findViewById(R.id.newsTitle);
         TextView description = (TextView) view.findViewById(R.id.description);
@@ -68,7 +73,7 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
             description.setText(news.getDescription());
         }
 
-
+        RelativeLayout sectionLayout = (RelativeLayout) view.findViewById(R.id.section);
         //set price and rental attributes
         newsTitle.setText(String.valueOf(news.getTitle()));
         if (news.getImageUrl() == "null") {
