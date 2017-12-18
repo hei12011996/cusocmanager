@@ -1,0 +1,178 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="csci3310gp10.cusocmanager.LoginFragment">
+
+    <TextView
+        android:id="@+id/member_detail_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="19dp"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="會員資訊/Member Info"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/chinese_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:hint="Chinese Name"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/member_detail_header"
+        android:layout_alignStart="@+id/member_detail_header"
+        android:layout_marginStart="44dp" />
+
+    <EditText
+        android:id="@+id/english_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="English Name"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/chinese_name_text"
+        android:layout_alignStart="@+id/chinese_name_text" />
+
+    <EditText
+        android:id="@+id/sid_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Student ID"
+        android:inputType="number"
+        android:layout_below="@+id/english_name_text"
+        android:layout_alignStart="@+id/english_name_text" />
+
+    <EditText
+        android:id="@+id/college_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="College"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/sid_text"
+        android:layout_alignStart="@+id/sid_text" />
+
+    <EditText
+        android:id="@+id/major_year_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Major/Year"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/college_text"
+        android:layout_alignStart="@+id/college_text" />
+
+    <EditText
+        android:id="@+id/phone_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/major_year_text"
+        android:layout_alignStart="@+id/major_year_text" />
+
+    <EditText
+        android:id="@+id/email_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/phone_text"
+        android:layout_alignStart="@+id/phone_text" />
+
+    <TextView
+        android:id="@+id/chinese_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="11dp"
+        android:text="中文姓名"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/chinese_name_text"
+        android:layout_alignBottom="@+id/chinese_name_text"
+        android:layout_toStartOf="@+id/english_name_text" />
+
+    <TextView
+        android:id="@+id/english_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="English Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/english_name_text"
+        android:layout_alignBottom="@+id/english_name_text"
+        android:layout_alignEnd="@+id/chinese_name_label" />
+
+    <TextView
+        android:id="@+id/sid_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student ID"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/sid_text"
+        android:layout_alignBottom="@+id/sid_text"
+        android:layout_alignEnd="@+id/chinese_name_label" />
+
+    <TextView
+        android:id="@+id/college_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="College"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/college_text"
+        android:layout_alignBottom="@+id/college_text"
+        android:layout_alignEnd="@+id/sid_label" />
+
+    <TextView
+        android:id="@+id/major_year_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Major/Year"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/major_year_text"
+        android:layout_alignBottom="@+id/major_year_text"
+        android:layout_alignEnd="@+id/college_label" />
+
+    <TextView
+        android:id="@+id/phone_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/phone_text"
+        android:layout_alignBottom="@+id/phone_text"
+        android:layout_alignEnd="@+id/major_year_label" />
+
+    <TextView
+        android:id="@+id/email_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-mail"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/email_text"
+        android:layout_alignBottom="@+id/email_text"
+        android:layout_alignEnd="@+id/phone_label" />
+
+
+
+</RelativeLayout>

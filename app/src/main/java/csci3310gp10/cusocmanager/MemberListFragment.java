@@ -23,12 +23,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -38,7 +40,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MemberListFragment extends Fragment implements RequestTaskResult<List<String>>{
+public class MemberListFragment extends Fragment implements RequestTaskResult<ArrayList<Member>>{
     private GoogleAccountCredential mCredential;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
@@ -47,8 +49,9 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Li
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private String[] memberList;
-    private ListView lv;
+    private ArrayList<Member> fullMemberList;
+    private String[] memberBasicInfoList;
+    private ListView listView;
     private EditText inputSearch;
     ArrayAdapter<String> adapter;
 
@@ -67,7 +70,19 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Li
 
         getResultsFromApi();
 
-        lv = (ListView) view.findViewById(R.id.member_list_view);
+        listView = (ListView) view.findViewById(R.id.member_list_view);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                MemberDetailFragment fragment = new MemberDetailFragment();
+                Bundle args = new Bundle();
+                args.putParcelable("member", fullMemberList.get(Arrays.asList(memberBasicInfoList).indexOf(listView.getItemAtPosition(position))));
+                fragment.setArguments(args);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = MemberListFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
+            }
+        });
         inputSearch = (EditText) view.findViewById(R.id.inputSearch);
 
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -108,10 +123,11 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Li
             chooseAccount();
         }
         else if (! isDeviceOnline()) {
+            Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         else{
-            MakeRequestTask updateTask = new MakeRequestTask(mCredential);
-            updateTask.taskResult = this;
+            MakeRequestTask updateTask = new MakeRequestTask(mCredential, this.getActivity());
+            updateTask.memberListResult = this;
             updateTask.execute();
         }
     }
@@ -261,11 +277,14 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Li
     }
 
     @Override
-    public void taskFinish(List<String> results){
-        memberList = new String[results.size()];
-        memberList = results.toArray(memberList);
-        // Adding items to listview
-        adapter = new ArrayAdapter<String>(MemberListFragment.this.getActivity(), R.layout.list_item, R.id.product_name, memberList);
-        lv.setAdapter(adapter);
+    public void taskFinish(ArrayList<Member> results){
+        fullMemberList = new ArrayList<>(results);
+        memberBasicInfoList = new String[results.size()];
+        for(int i = 0; i < fullMemberList.size(); i++){
+            Member member = fullMemberList.get(i);
+            memberBasicInfoList[i] = member.getChineseName() + "," + member.getEnglishName() + "," + member.getSID();
+        }
+        adapter = new ArrayAdapter<>(MemberListFragment.this.getActivity(), R.layout.list_item, R.id.member_basic_info, memberBasicInfoList);
+        listView.setAdapter(adapter);
     }
 }

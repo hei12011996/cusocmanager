@@ -99,13 +99,13 @@ public class NavActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_events) {
             EventsFragment fragment = new EventsFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_feedback) {
             FeedBackFragment fragment = new FeedBackFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
@@ -114,13 +114,13 @@ public class NavActivity extends AppCompatActivity
 //        }
         else if (id == R.id.nav_Login) {
             LoginFragment fragment = new LoginFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
         else if (id == R.id.nav_member_list) {
             MemberListFragment fragment = new MemberListFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
