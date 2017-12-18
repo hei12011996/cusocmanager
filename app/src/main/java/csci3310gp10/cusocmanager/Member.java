@@ -20,7 +20,6 @@ public class Member implements Parcelable {
     public static final Creator CREATOR = new Creator(){
         @Override
         public Member createFromParcel(Parcel source) {
-            // TODO Auto-generated method stub
             Member member = new Member();
             member.setRow(source.readInt());
             member.setChineseName(source.readString());
@@ -35,10 +34,10 @@ public class Member implements Parcelable {
 
         @Override
         public Member[] newArray(int size) {
-            // TODO Auto-generated method stub
             return new Member[size];
         }
     };
+
     public Member(Integer row){
         this.row = row;
     }

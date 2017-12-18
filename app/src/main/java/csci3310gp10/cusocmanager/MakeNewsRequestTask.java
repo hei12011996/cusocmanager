@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -23,19 +22,23 @@ import java.util.List;
  * An asynchronous task that handles the Google Sheets API call.
  * Placing the API calls in their own task ensures the UI stays responsive.
  */
-public class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<Member>> {
+public class MakeNewsRequestTask extends AsyncTask<Void, Void, ArrayList<News>> {
     private com.google.api.services.sheets.v4.Sheets mService = null;
     private Exception mLastError = null;
     private Context context = null;
-    public RequestTaskResult<ArrayList<Member>> memberListResult = null;
+    private String command = "getAll";
+    private String range = "News_List";
+    public RequestTaskResult<ArrayList<News>> newsListResult = null;
 
-    MakeRequestTask(GoogleAccountCredential credential, Context context) {
+    MakeNewsRequestTask(Context context, String command, String range) {
         this.context = context;
+        this.command = command;
+        this.range = range;
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         mService = new com.google.api.services.sheets.v4.Sheets.Builder(
-                transport, jsonFactory, credential)
-                .setApplicationName("Google Sheets API Android Quickstart")
+                transport, jsonFactory, null)
+                .setApplicationName("Cu Soc Manager")
                 .build();
     }
 
@@ -44,10 +47,16 @@ public class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<Member>> {
          * @param params no parameters needed for this task.
          */
     @Override
-    protected ArrayList<Member> doInBackground(Void... params) {
+    protected ArrayList<News> doInBackground(Void... params) {
         try {
-            return getDataFromApi();
+            switch(command){
+                case "getAll":
+                    return getFullNewsListFromAPI();
+                default:
+                    return getFullNewsListFromAPI();
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             mLastError = e;
             cancel(true);
             return null;
@@ -59,27 +68,24 @@ public class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<Member>> {
          * @return List of members
          * @throws IOException
          */
-    private ArrayList<Member> getDataFromApi() throws IOException {
-        String spreadsheetId = "18LYcI3_Z9lr4N4ZKWXVpy-76ZtxBFwX6p6_E9QYv361";
-        String range = "Member_List";
-        ArrayList<Member> results = new ArrayList<Member>();
+    private ArrayList<News> getFullNewsListFromAPI() throws IOException {
+        String member_list_sheet_id = context.getString(R.string.member_list_sheet_id);
+        ArrayList<News> results = new ArrayList<News>();
         ValueRange response = this.mService.spreadsheets().values()
-                .get(spreadsheetId, range)
+                .get(member_list_sheet_id, range)
+                .setKey(context.getString(R.string.google_sheet_API_key))
                 .execute();
         List<List<Object>> values = response.getValues();
         Integer i = 0;
         if (values != null) {
             for (List row : values.subList(1, values.size())) {
                 i++;
-                String chinese_name = String.valueOf(row.get(0));
-                String english_name = String.valueOf(row.get(1));
-                String sid = String.valueOf(row.get(2));
-                String college = String.valueOf(row.get(3));
-                String major_year = String.valueOf(row.get(4));
-                String phone = String.valueOf(row.get(5));
-                String email = String.valueOf(row.get(6));
-                Member member = new Member(i, chinese_name, english_name, sid, college, major_year, phone, email);
-                results.add(member);
+                String title = String.valueOf(row.get(0));
+                String description = String.valueOf(row.get(1));
+                String image_url = String.valueOf(row.get(2));
+                String timestamp = String.valueOf(row.get(3));
+                News news = new News(i, title, description, image_url, timestamp);
+                results.add(news);
             }
         }
         return results;
@@ -90,8 +96,8 @@ public class MakeRequestTask extends AsyncTask<Void, Void, ArrayList<Member>> {
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Member> output) {
-        this.memberListResult.taskFinish(output);
+    protected void onPostExecute(ArrayList<News> output) {
+        this.newsListResult.taskFinish(output);
         if (output == null || output.size() == 0) {
             Toast.makeText(context, "No results returned.", Toast.LENGTH_SHORT).show();
 //            System.out.println("No results returned.");

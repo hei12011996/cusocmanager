@@ -18,7 +18,7 @@
             <!--android:id="@+id/nav_settings"-->
             <!--android:icon="@drawable/ic_menu_manage"-->
             <!--android:title="Settings" />-->
-        <item android:title="@string/nav_section_manage">
+        <item android:id="@+id/nav_section_manage" android:title="@string/nav_section_manage">
             <menu>
                 <group android:checkableBehavior="single">
                     <item

@@ -474,16 +474,22 @@ public class CustomArrayAdapter<T> extends BaseAdapter implements Filterable {
                     if (valueText.startsWith(prefixString)) {
                         newValues.add(value);
                     } else {
-                        final String[] words = valueText.split(" ");
-                        final int wordCount = words.length;
+                        // Break the prefix into "words"
+                        final String[] prefixes = prefixString.split(" ");
+                        final int prefixCount = prefixes.length;
 
-                        // Start at index 0, in case valueText starts with space(s)
-                        for (int k = 0; k < wordCount; k++) {
-                            if (words[k].startsWith(prefixString)) {
-                                newValues.add(value);
-                                break;
-                            }
-                        }
+                        int loc;
+                        // Find the first "word" in prefix
+                        if(valueText.startsWith(prefixes[0]) || (loc = valueText.indexOf(' ' + prefixes[0])) > -1)
+                            loc = valueText.indexOf(prefixes[0]);
+
+                        // Find the following "words" in order
+                        for (int j = 1; j < prefixCount && loc > -1; j++)
+                            loc = valueText.indexOf(' ' + prefixes[j], loc + 2);
+
+                        // If every "word" is in this row, add it to the results
+                        if(loc > -1)
+                            newValues.add(value);
                     }
                 }
 

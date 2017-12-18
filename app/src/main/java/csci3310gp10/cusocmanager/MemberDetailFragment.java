@@ -1,18 +1,36 @@
 package csci3310gp10.cusocmanager;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.sheets.v4.SheetsScopes;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MemberDetailFragment extends Fragment {
+public class MemberDetailFragment extends Fragment implements RequestTaskResult<ArrayList<Member>>{
+    private GoogleAccountCredential mCredential;
+    private static final String PREF_ACCOUNT_NAME = "accountName";
+    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
     private Member member = null;
     EditText chinese_name_text = null;
     EditText english_name_text = null;
@@ -32,6 +50,7 @@ public class MemberDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_member_detail, container, false);
+        setHasOptionsMenu(true);
         Bundle args = getArguments();
         member = args.getParcelable("member");
         chinese_name_text = (EditText) view.findViewById(R.id.chinese_name_text);
@@ -44,6 +63,9 @@ public class MemberDetailFragment extends Fragment {
         closeAllTextEdit();
         insertMemberInfo();
 
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                this.getActivity().getApplicationContext(), Arrays.asList(SCOPES))
+                .setBackOff(new ExponentialBackOff());
         // Inflate the layout for this fragment
         return view;
     }
@@ -68,4 +90,80 @@ public class MemberDetailFragment extends Fragment {
         email_text.setEnabled(false);
     }
 
+    private void openAllTextEdit(){
+        chinese_name_text.setEnabled(true);
+        english_name_text.setEnabled(true);
+        sid_text.setEnabled(true);
+        college_text.setEnabled(true);
+        major_year_text.setEnabled(true);
+        phone_text.setEnabled(true);
+        email_text.setEnabled(true);
+    }
+
+    private void saveInfoToMember(){
+        member.setChineseName(chinese_name_text.getText().toString());
+        member.setEnglishName(english_name_text.getText().toString());
+        member.setSID(sid_text.getText().toString());
+        member.setCollege(college_text.getText().toString());
+        member.setMajorYear(major_year_text.getText().toString());
+        member.setPhone(phone_text.getText().toString());
+        member.setEmail(email_text.getText().toString());
+    }
+
+    private void pushMemberToSheet(){
+        if (! isDeviceOnline()) {
+            Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            MakeMemberRequestTask updateTask = new MakeMemberRequestTask(this.getActivity(), "getAll", "Member_List");
+            updateTask.memberListResult = this;
+            updateTask.execute();
+        }
+    }
+
+
+    /**
+     * Checks whether the device currently has a network connection.
+     * @return true if the device has a network connection, false otherwise.
+     */
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.nav_member_detail, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit_member) {
+            openAllTextEdit();
+        }
+        else if (id == R.id.action_save_member){
+            closeAllTextEdit();
+            saveInfoToMember();
+            pushMemberToSheet();
+        }
+        else if (id == R.id.action_delete_member){
+        }
+        return true;
+    }
+
+    @Override
+    public void taskFinish(ArrayList<Member> results){
+        for(int i = 0; i < results.size(); i++){
+            Member member = results.get(i);
+            System.out.println(member.getChineseName() + ", " + member.getEnglishName() + ", " + member.getSID());
+        }
+    }
 }
