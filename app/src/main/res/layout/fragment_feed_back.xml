@@ -4,15 +4,75 @@
     android:layout_height="match_parent"
     tools:context="csci3310gp10.cusocmanager.FeedBackFragment">
 
-    <Button
+    <TextView
+        android:id="@+id/feedback_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FeedBack"
+        android:textSize="25sp"
+        android:text="Leave us comment"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorPrimaryText"
+        android:fontFamily="sans-serif-smallcaps"
+        />
+    <TextView
+        android:id="@+id/feedback_topic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Topic/標題: "
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/feedback_page"
+        android:layout_alignStart="@+id/feedback_page"
+        android:textColor="@color/colorPrimaryText"
+        />
+
+    <EditText
+        android:id="@+id/feedback_topic_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/feedback_topic"
+        android:layout_alignBottom="@+id/feedback_topic"
+        android:layout_marginEnd="15dp"
+        android:layout_toEndOf="@+id/feedback_topic"
+        android:background="?android:attr/detailsElementBackground"></EditText>
+
+    <TextView
+        android:id="@+id/feedback_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Description/描述:"
+        android:layout_below="@+id/feedback_topic"
+        android:layout_alignStart="@+id/feedback_topic"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimaryText"
+        />
+
+    <EditText
+        android:id="@+id/feedback_description_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/feedback_description"
+        android:layout_below="@+id/feedback_description"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/background_light">
+
+    </EditText>
+    <Button
+        android:id="@+id/feedback_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
         android:padding="8dp"
         android:textColor="#ffffff"
         android:background="@color/colorPrimary"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_marginTop="122dp"
+        android:layout_below="@+id/feedback_description_edit"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp" />
 </RelativeLayout>
