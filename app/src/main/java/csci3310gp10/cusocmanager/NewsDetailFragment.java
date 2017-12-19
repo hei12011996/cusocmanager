@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsDetailFragment extends Fragment{
+public class NewsDetailFragment extends Fragment implements RequestTaskResult<ArrayList<News>>{
 
     private ProgressBar spinner;
     private NewsItemAdapter adapter;
@@ -99,8 +99,30 @@ public class NewsDetailFragment extends Fragment{
             fragmentTransaction.commit();
         }
         else if (id == R.id.action_delete_news){
-            Toast.makeText(getContext(), "delete news", Toast.LENGTH_SHORT).show();
+            //remove News
+            if (! isDeviceOnline()) {
+                Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                MakeNewsRequestTask deleteTask = new MakeNewsRequestTask(this.getActivity(), "delete", "News_List", news);
+                deleteTask.newsListResult = this;
+                deleteTask.execute();
+            }
         }
         return true;
+    }
+
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    @Override
+    public void taskFinish(ArrayList<News> results){
+        NewsFragment fragment = new NewsFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = NewsDetailFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }
