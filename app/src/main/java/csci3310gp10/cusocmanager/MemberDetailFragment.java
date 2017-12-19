@@ -139,9 +139,9 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
             }
             else if (mode.equals("create")){
                 member.setRow(last_row + 1);
-                MakeMemberRequestTask updateTask = new MakeMemberRequestTask(this.getActivity(), "create", "Member_List", member);
-                updateTask.memberListResult = this;
-                updateTask.execute();
+                MakeMemberRequestTask createTask = new MakeMemberRequestTask(this.getActivity(), "create", "Member_List", member);
+                createTask.memberListResult = this;
+                createTask.execute();
             }
         }
     }
@@ -151,9 +151,9 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
             Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         else{
-            MakeMemberRequestTask updateTask = new MakeMemberRequestTask(this.getActivity(), "delete", "Member_List", member);
-            updateTask.memberListResult = this;
-            updateTask.execute();
+            MakeMemberRequestTask deleteTask = new MakeMemberRequestTask(this.getActivity(), "delete", "Member_List", member);
+            deleteTask.memberListResult = this;
+            deleteTask.execute();
         }
     }
 

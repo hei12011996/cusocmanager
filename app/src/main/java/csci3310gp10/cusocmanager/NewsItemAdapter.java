@@ -79,7 +79,7 @@ public class NewsItemAdapter extends ArrayAdapter<News> {
         }
 
         Calendar cal = Calendar.getInstance(Locale.CHINA);
-        cal.setTimeInMillis(Long.valueOf(news.getTimeStamp()) * 1000L);
+        cal.setTimeInMillis(Long.valueOf(news.getTimeStamp()));
         String date = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
         timestamp.setText("Posted at: " + date);
 

@@ -227,8 +227,8 @@ public class MakeNewsRequestTask extends AsyncTask<Void, Void, ArrayList<News>> 
     private void sortNewsListViaAPI() throws IOException{
         BatchUpdateSpreadsheetRequest batch_update_request = new BatchUpdateSpreadsheetRequest();
         SortSpec sort_spec = new SortSpec();
-        sort_spec.setSortOrder("ASCENDING");
-        sort_spec.setDimensionIndex(1);
+        sort_spec.setSortOrder("DESCENDING");
+        sort_spec.setDimensionIndex(4);
         GridRange grid_range = new GridRange();
         grid_range.setStartRowIndex(1);
         SortRangeRequest sort_range_request = new SortRangeRequest();
