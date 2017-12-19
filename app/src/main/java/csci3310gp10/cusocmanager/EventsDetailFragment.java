@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventsDetailFragment extends Fragment{
+public class EventsDetailFragment extends Fragment implements RequestTaskResult<ArrayList<News>>{
 
     private EventsItemAdapter adapter;
     private ListView newsListView;
@@ -85,11 +85,41 @@ public class EventsDetailFragment extends Fragment{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_edit_news) {
-            Toast.makeText(getContext(), "edit details", Toast.LENGTH_SHORT).show();
+            NewsEditFragment fragment = new NewsEditFragment();
+            Bundle args = new Bundle();
+            args.putString("mode", "edit");
+            args.putParcelable("item", news);
+            fragment.setArguments(args);
+            android.support.v4.app.FragmentTransaction fragmentTransaction = EventsDetailFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_edit_fragment));
+            fragmentTransaction.addToBackStack(getString(R.string.news_edit_fragment));
+            fragmentTransaction.commit();
         }
         else if (id == R.id.action_delete_news){
-            Toast.makeText(getContext(), "delete news", Toast.LENGTH_SHORT).show();
+            //remove News
+            if (! isDeviceOnline()) {
+                Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                MakeNewsRequestTask deleteTask = new MakeNewsRequestTask(this.getActivity(), "delete", "News_List", news);
+                deleteTask.newsListResult = this;
+                deleteTask.execute();
+            }
         }
         return true;
+    }
+
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    @Override
+    public void taskFinish(ArrayList<News> results){
+        EventsFragment fragment = new EventsFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = EventsDetailFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }
