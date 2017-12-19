@@ -189,7 +189,7 @@ public class NavActivity extends AppCompatActivity
             if(getSupportFragmentManager().getBackStackEntryCount() > 1){
                 getSupportFragmentManager().popBackStack();
             }
-            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.member_list_fragment));
             fragmentTransaction.addToBackStack(getString(R.string.member_list_fragment));
             fragmentTransaction.commit();
@@ -199,7 +199,7 @@ public class NavActivity extends AppCompatActivity
             if (getSupportFragmentManager().getBackStackEntryCount() >1) {
                 getSupportFragmentManager().popBackStack();
             }
-            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.feedback_list_fragment));
             fragmentTransaction.addToBackStack(getString(R.string.feedback_list_fragment));
             fragmentTransaction.commit();

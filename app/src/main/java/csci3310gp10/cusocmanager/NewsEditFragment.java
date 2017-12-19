@@ -124,8 +124,13 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
     @Override
     public void taskFinish(ArrayList<News> results){
         NewsFragment fragment = new NewsFragment();
+        if(this.getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1){
+            this.getActivity().getSupportFragmentManager().popBackStack();
+            this.getActivity().getSupportFragmentManager().popBackStack();
+        }
         android.support.v4.app.FragmentTransaction fragmentTransaction = NewsEditFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_fragment));
+        fragmentTransaction.addToBackStack(getString(R.string.news_fragment));
         fragmentTransaction.commit();
     }
 

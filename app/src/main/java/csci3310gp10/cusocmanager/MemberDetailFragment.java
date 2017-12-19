@@ -215,16 +215,15 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
 
     @Override
     public void taskFinish(ArrayList<Member> results){
-        if (action.equals("delete")){
+        if (action.equals("delete") || mode.equals("create")){
             MemberListFragment fragment = new MemberListFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = MemberDetailFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        }
-        else if (mode.equals("create")){
-            MemberListFragment fragment = new MemberListFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = MemberDetailFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            if(this.getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1){
+                this.getActivity().getSupportFragmentManager().popBackStack();
+                this.getActivity().getSupportFragmentManager().popBackStack();
+            }
+            android.support.v4.app.FragmentTransaction fragmentTransaction = this.getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.member_list_fragment));
+            fragmentTransaction.addToBackStack(getString(R.string.member_list_fragment));
             fragmentTransaction.commit();
         }
     }
