@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  */
 public class NewsDetailFragment extends Fragment{
 
+    private ProgressBar spinner;
     private NewsItemAdapter adapter;
     private ListView newsListView;
 
@@ -42,6 +44,7 @@ public class NewsDetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        spinner = (ProgressBar) view.findViewById(R.id.progress_bar);
         //activate option menu
         NavActivity checkLogin = (NavActivity) this.getActivity();
         Boolean hasLogin = checkLogin.getLoginStatus();
@@ -57,7 +60,7 @@ public class NewsDetailFragment extends Fragment{
         mode = args.getString("mode");
         if(mode.equals("view")) {
             news = args.getParcelable("item");
-
+            spinner.setVisibility(View.GONE);
             ArrayList<News> fullNewsList = new ArrayList<>();
             fullNewsList.add(news);
 
