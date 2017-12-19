@@ -80,7 +80,8 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
                 args.putParcelable("item", news);
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = NewsFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_detail_fragment));
+                fragmentTransaction.addToBackStack(getString(R.string.news_detail_fragment));
                 fragmentTransaction.commit();
             }
         });

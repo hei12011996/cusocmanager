@@ -79,8 +79,12 @@ public class FeedBackFragment extends Fragment implements RequestTaskResult<Arra
     public void taskFinish(ArrayList<Feedback> results) {
         Toast.makeText(getContext(), "Send feedback successfully", Toast.LENGTH_SHORT).show();
         FeedBackFragment fragment = new FeedBackFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        if(FeedBackFragment.this.getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1){
+            FeedBackFragment.this.getActivity().getSupportFragmentManager().popBackStack();
+        }
+        android.support.v4.app.FragmentTransaction fragmentTransaction = FeedBackFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.feedback_fragment));
+        fragmentTransaction.addToBackStack(getString(R.string.feedback_fragment));
         fragmentTransaction.commit();
     }
 

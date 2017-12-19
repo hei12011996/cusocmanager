@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -58,7 +57,8 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
                 args.putString("mode", "view");
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = MemberListFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.member_detail_fragment));
+                fragmentTransaction.addToBackStack(getString(R.string.member_detail_fragment));
                 fragmentTransaction.commit();
             }
         });
@@ -93,7 +93,8 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
                 args.putInt("last_row", fullMemberList.size());
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = MemberListFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.member_detail_fragment));
+                fragmentTransaction.addToBackStack(getString(R.string.member_detail_fragment));
                 fragmentTransaction.commit();
             }
         });

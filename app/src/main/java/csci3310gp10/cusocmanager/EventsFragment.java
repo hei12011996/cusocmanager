@@ -80,7 +80,8 @@ public class EventsFragment extends Fragment implements RequestTaskResult<ArrayL
                 args.putParcelable("item", news);
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = EventsFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.event_detail_fragment));
+                fragmentTransaction.addToBackStack(getString(R.string.event_detail_fragment));
                 fragmentTransaction.commit();
             }
         });
