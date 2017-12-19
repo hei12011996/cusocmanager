@@ -37,10 +37,12 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
+//        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+//        navigationView.getMenu().getItem(0).setChecked(true);
         newsListView = (ListView) view.findViewById(R.id.newsList);
         getFullNewsListFromAPI();
+        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_news);
         return view;
     }
 

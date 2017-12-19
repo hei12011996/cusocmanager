@@ -64,8 +64,8 @@ public class LoginFragment extends Fragment {
                         LoginFragment.this.getActivity().getSupportFragmentManager().popBackStack();
                     }
                     android.support.v4.app.FragmentTransaction fragmentTransaction = LoginFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.login_fragment));
-                    fragmentTransaction.addToBackStack(getString(R.string.login_fragment));
+                    fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_fragment));
+                    fragmentTransaction.addToBackStack(getString(R.string.news_fragment));
                     fragmentTransaction.commit();
                 }
                 else {

@@ -102,8 +102,8 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
             }
         });
 
-//        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
-//        navigationView.getMenu().getItem(3).getSubMenu().getItem(1).setChecked(true);
+        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_member_list);
         // Inflate the layout for this fragment
         return view;
     }

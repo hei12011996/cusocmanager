@@ -67,7 +67,6 @@ public class NavActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-
     }
 
     @Override
@@ -123,6 +122,7 @@ public class NavActivity extends AppCompatActivity
         if (id == R.id.nav_news) {
             NewsFragment fragment = new NewsFragment();
             if(getSupportFragmentManager().getBackStackEntryCount() > 1){
+                getSupportFragmentManager().popBackStack();
                 getSupportFragmentManager().popBackStack();
             }
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -211,7 +211,32 @@ public class NavActivity extends AppCompatActivity
     }
 
     private void checkLogoutFragment(){
-//        Fragment current_fragment = (Fragment)getFragmentManager().findFragmentByTag("MY_FRAGMENT");
-//        System.out.println(current_fragment)
+//        FragmentManager fragment_manager = getSupportFragmentManager();
+//        String current_fragment_tag = fragment_manager.getBackStackEntryAt(fragment_manager.getBackStackEntryCount() - 1).getName();
+//        for (int i = 0; i < navigationView.getMenu().size(); i++) {
+//            navigationView.getMenu().getItem(i).setChecked(false);
+//        }
+//        // If it was in the three basic fragment for normal user before logout, select the current option.
+//        if (current_fragment_tag.equals(getString(R.string.news_fragment))) {
+//            navigationView.getMenu().getItem(0).setChecked(true);
+//        }
+//        else if (current_fragment_tag.equals(getString(R.string.event_fragment))) {
+//            navigationView.getMenu().getItem(1).setChecked(true);
+//        }
+//        else if (current_fragment_tag.equals(getString(R.string.feedback_fragment))) {
+//            navigationView.setCheckedItem(R.id.nav_feedback);
+//        }
+//        else{
+//            // If not, then it is in the admin-only fragment, direct to news
+//            if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
+//                getSupportFragmentManager().popBackStack();
+//                getSupportFragmentManager().popBackStack();
+//            }
+//            NewsFragment fragment = new NewsFragment();
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_fragment));
+//            fragmentTransaction.addToBackStack(getString(R.string.news_fragment));
+//            fragmentTransaction.commit();
+//        }
     }
 }

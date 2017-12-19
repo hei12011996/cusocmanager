@@ -39,6 +39,9 @@ public class EventsFragment extends Fragment implements RequestTaskResult<ArrayL
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         newsListView = (ListView) view.findViewById(R.id.newsList);
         getFullNewsListFromAPI();
+
+        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_events);
         return view;
     }
 

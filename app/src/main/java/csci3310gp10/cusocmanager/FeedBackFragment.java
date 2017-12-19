@@ -53,6 +53,9 @@ public class FeedBackFragment extends Fragment implements RequestTaskResult<Arra
                 }
             }
         });
+
+        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_feedback);
         return view;
     }
 
