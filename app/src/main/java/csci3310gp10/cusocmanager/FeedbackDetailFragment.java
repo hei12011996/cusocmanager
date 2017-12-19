@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 public class FeedbackDetailFragment extends Fragment{
 
+    private ProgressBar spinner;
     private FeedbackItemAdapter adapter;
     private ListView feedbackListView;
 
@@ -31,6 +33,8 @@ public class FeedbackDetailFragment extends Fragment{
         Feedback feedback = args.getParcelable("item");
         ArrayList<Feedback> fullFeedbackList = new ArrayList<>();
         fullFeedbackList.add(feedback);
+        spinner = (ProgressBar) view.findViewById(R.id.progress_bar);
+        spinner.setVisibility(View.GONE);
 
         feedbackListView = (ListView) view.findViewById(R.id.feedbackList);
 

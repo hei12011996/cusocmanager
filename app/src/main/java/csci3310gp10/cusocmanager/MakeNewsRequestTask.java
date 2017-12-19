@@ -252,7 +252,15 @@ public class MakeNewsRequestTask extends AsyncTask<Void, Void, ArrayList<News>> 
         this.newsListResult.taskFinish(output);
         if (output == null || output.size() == 0) {
             Toast.makeText(context, "No results returned.", Toast.LENGTH_SHORT).show();
-//            System.out.println("No results returned.");
+        }
+        else if (command.equals("update") && affectedRow == 1){
+            Toast.makeText(context, "Information of " + news.getTitle() + " has been updated.", Toast.LENGTH_SHORT).show();
+        }
+        else if (command.equals("create") && affectedRow == 1){
+            Toast.makeText(context, news.getTitle() + " is added to member list successfully.", Toast.LENGTH_SHORT).show();
+        }
+        else if (command.equals("delete") && affectedRow == 1){
+            Toast.makeText(context, "Member " + news.getTitle() + " is removed successfully.", Toast.LENGTH_SHORT).show();
         }
     }
 

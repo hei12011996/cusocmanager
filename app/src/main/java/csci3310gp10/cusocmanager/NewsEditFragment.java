@@ -58,9 +58,6 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
         submit_button = (Button) view.findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mode.equals("edit")){
-                    closeAllTextEdit();
-                }
                 saveInfoToNews();
                 pushNewsToSheet();
             }
@@ -71,22 +68,6 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
 
         // Inflate the layout for this fragment
         return view;
-    }
-
-    private void closeAllTextEdit(){
-        title.setEnabled(false);
-        description.setEnabled(false);
-        url.setEnabled(false);
-        checkbox_isEvent.setEnabled(false);
-        submit_button.setVisibility(View.GONE);
-    }
-
-    private void openAllTextEdit(){
-        title.setEnabled(true);
-        description.setEnabled(true);
-        url.setEnabled(true);
-        checkbox_isEvent.setEnabled(true);
-        submit_button.setVisibility(View.VISIBLE);
     }
 
     private void insertNewsInfo(){
@@ -138,52 +119,12 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
         }
     }
 
-    private void removeNews(){
-        if (! isDeviceOnline()) {
-            Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            MakeNewsRequestTask updateTask = new MakeNewsRequestTask(this.getActivity(), "delete", "News_List", news);
-            updateTask.newsListResult = this;
-            updateTask.execute();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_edit_member) {
-            openAllTextEdit();
-            action = "edit";
-        }
-        else if (id == R.id.action_delete_member){
-            if (!mode.equals("create")){
-                removeNews();
-                action = "delete";
-            }
-        }
-        return true;
-    }
-
     @Override
     public void taskFinish(ArrayList<News> results){
-        if (action.equals("delete")){
-            NewsFragment fragment = new NewsFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = NewsEditFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        }
-        else if (mode.equals("create")){
-            NewsFragment fragment = new NewsFragment();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = NewsEditFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
-        }
+        NewsFragment fragment = new NewsFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = NewsEditFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
 
