@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -237,16 +238,16 @@ public class NavActivity extends AppCompatActivity
 //            navigationView.setCheckedItem(R.id.nav_feedback);
 //        }
 //        else{
-//            // If not, then it is in the admin-only fragment, direct to news
-//            if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
-//                getSupportFragmentManager().popBackStack();
-//                getSupportFragmentManager().popBackStack();
-//            }
-//            NewsFragment fragment = new NewsFragment();
-//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_fragment));
-//            fragmentTransaction.addToBackStack(getString(R.string.news_fragment));
-//            fragmentTransaction.commit();
+            // If not, then it is in the admin-only fragment, direct to news
+            if(getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().popBackStack();
+            }
+            NewsFragment fragment = new NewsFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_fragment));
+            fragmentTransaction.addToBackStack(getString(R.string.news_fragment));
+            fragmentTransaction.commit();
 //        }
     }
 }

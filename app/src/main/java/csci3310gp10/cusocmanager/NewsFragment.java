@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.Arrays;
  */
 public class NewsFragment extends Fragment implements RequestTaskResult<ArrayList<News>>{
 
+    private ProgressBar spinner;
     private ArrayList<News> fullNewsList = new ArrayList<>();
     private NewsItemAdapter adapter;
     private ListView newsListView;
@@ -41,6 +43,7 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         newsListView = (ListView) view.findViewById(R.id.newsList);
+        spinner = (ProgressBar) view.findViewById(R.id.progress_bar);
         getFullNewsListFromAPI();
 
         NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
@@ -81,6 +84,7 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
     }
     @Override
     public void taskFinish(ArrayList<News> results){
+        spinner.setVisibility(View.GONE);
         fullNewsList = new ArrayList<>(results);
 
         boolean detailPage = false; //false if this is newsFeed, not detailed ver

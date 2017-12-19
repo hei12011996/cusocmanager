@@ -4,12 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FeedbackListFragment extends Fragment implements RequestTaskResult<ArrayList<Feedback>>{
+    private ProgressBar spinner;
     private ArrayList<Feedback> feedbackList = new ArrayList<>();
     private FeedbackItemAdapter adapter;
     private ListView feedbackListView;
@@ -31,8 +34,12 @@ public class FeedbackListFragment extends Fragment implements RequestTaskResult<
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feedback_list, container, false);
+        spinner = (ProgressBar) view.findViewById(R.id.progress_bar);
         feedbackListView = (ListView) view.findViewById(R.id.feedbackList);
         getFullFeedbackListFromAPI();
+
+        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_view_feedback);
         return view;
     }
 
@@ -59,6 +66,7 @@ public class FeedbackListFragment extends Fragment implements RequestTaskResult<
 
     @Override
     public void taskFinish(ArrayList<Feedback> results){
+        spinner.setVisibility(View.GONE);
         feedbackList = new ArrayList<>(results);
 
         boolean detailPage = false; //false if this is newsFeed, not detailed ver

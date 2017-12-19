@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FeedBackFragment extends Fragment implements RequestTaskResult<ArrayList<Feedback>> {
+
     public View view;
     public Button submitButton;
     public EditText topic;
