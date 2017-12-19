@@ -4,54 +4,53 @@
     android:layout_height="match_parent"
     tools:context="csci3310gp10.cusocmanager.LoginFragment">
 
-
-    <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/login_hint_username"
-        android:inputType="textPersonName"
-        android:layout_marginTop="94dp"
-        android:layout_marginEnd="43dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/login_hint_password"
-        android:inputType="textPassword"
-        android:layout_below="@+id/usernameTextView"
-        android:layout_alignStart="@+id/usernameEditText"
-        android:layout_marginTop="11dp" />
-
     <TextView
         android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
-        android:layout_marginStart="21dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="30dp"
         android:text="@string/login_label_username"
         android:textAlignment="textEnd"
-        android:textSize="18sp"
-        android:layout_alignBaseline="@+id/usernameEditText"
-        android:layout_alignBottom="@+id/usernameEditText"
-        android:layout_toStartOf="@+id/passwordEditText"/>
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/passwordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
         android:text="@string/login_label_password"
         android:textAlignment="textEnd"
         android:textSize="18sp"
-        android:layout_alignBaseline="@+id/passwordEditText"
-        android:layout_alignBottom="@+id/passwordEditText"
-        android:layout_alignEnd="@+id/usernameTextView" />
+        android:layout_below="@+id/usernameTextView"/>
+
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/login_hint_username"
+        android:inputType="textPersonName"
+        android:layout_toEndOf="@+id/usernameTextView"
+        android:layout_alignBaseline="@+id/usernameTextView"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="30dp" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/login_hint_password"
+        android:inputType="textPassword"
+        android:layout_toEndOf="@+id/passwordTextView"
+        android:layout_alignBaseline="@+id/passwordTextView"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="30dp" />
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
@@ -60,7 +59,7 @@
         android:padding="8dp"
         android:text="@string/login_button_label"
         android:textColor="#fff"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="70dp"
         android:layout_below="@+id/passwordTextView"
         android:layout_centerHorizontal="true" />
 
