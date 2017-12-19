@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="csci3310gp10.cusocmanager.LoginFragment">
+
+    <TextView
+        android:id="@+id/news_detail_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="19dp"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="News"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="Your Title"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/news_detail_header"
+        android:layout_toEndOf="@+id/title_label" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="write your description"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/title"
+        android:layout_alignStart="@+id/title" />
+
+    <EditText
+        android:id="@+id/url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="your image link"
+        android:inputType="textUri"
+        android:layout_below="@+id/description"
+        android:layout_alignStart="@+id/description" />
+
+    <TextView
+        android:id="@+id/title_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/title"
+        android:layout_alignBottom="@+id/title"
+        android:layout_toStartOf="@+id/submit_button"
+        android:layout_marginEnd="50dp" />
+
+    <TextView
+        android:id="@+id/description_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/description"
+        android:layout_alignBottom="@+id/description"
+        android:layout_alignEnd="@+id/title_label" />
+
+    <TextView
+        android:id="@+id/url_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="URL"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignBaseline="@+id/url"
+        android:layout_alignBottom="@+id/url"
+        android:layout_alignEnd="@+id/description_label" />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Submit"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/url_label"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

@@ -13,6 +13,7 @@
 
     <string name="news_fragment">NewsFragment</string>
     <string name="news_detail_fragment">NewsDetailFragment</string>
+    <string name="news_edit_fragment">NewsEditFragment</string>
     <string name="event_fragment">EventFragment</string>
     <string name="event_detail_fragment">EventDetailFragment</string>
     <string name="feedback_fragment">FeedbackFragment</string>

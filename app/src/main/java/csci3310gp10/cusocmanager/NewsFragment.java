@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,6 +30,8 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
     private NewsItemAdapter adapter;
     private ListView newsListView;
 
+    private FloatingActionButton myFab;
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -41,6 +44,17 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
         navigationView.getMenu().getItem(0).setChecked(true);
         newsListView = (ListView) view.findViewById(R.id.newsList);
         getFullNewsListFromAPI();
+
+        NavActivity checkLogin = (NavActivity) this.getActivity();
+        Boolean hasLogin = checkLogin.getLoginStatus();
+        myFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        if(hasLogin == true) {
+            myFab.show();
+        }
+        else {
+            myFab.hide();
+        }
+
         return view;
     }
 
@@ -80,11 +94,27 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
 
                 NewsDetailFragment fragment = new NewsDetailFragment();
                 Bundle args = new Bundle();
+                args.putString("mode", "view");
                 args.putParcelable("item", news);
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = NewsFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_detail_fragment));
                 fragmentTransaction.addToBackStack(getString(R.string.news_detail_fragment));
+                fragmentTransaction.commit();
+            }
+        });
+
+        myFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NewsEditFragment fragment = new NewsEditFragment();
+                Bundle args = new Bundle();
+                args.putString("mode", "create");
+                args.putInt("last_row", fullNewsList.size());
+                fragment.setArguments(args);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = NewsFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_edit_fragment));
+                fragmentTransaction.addToBackStack(getString(R.string.news_edit_fragment));
                 fragmentTransaction.commit();
             }
         });
