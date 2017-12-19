@@ -48,6 +48,10 @@
     <string name="feedback_title">Leave us comment</string>
     <string name="feedback_send_button_label">SEND</string>
 
+    <string name="header_username_default">username</string>
+    <string name="header_email_default">email account</string>
+    <string name="header_username_jpsoc">JAP Soc.</string>
+    <string name="header_email_jpsoc">japsoc2017@gmail.com</string>
 
 
 </resources>

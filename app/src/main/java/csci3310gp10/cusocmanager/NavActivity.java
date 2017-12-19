@@ -13,7 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -21,10 +25,14 @@ public class NavActivity extends AppCompatActivity
     NavigationView navigationView = null;
     Toolbar toolbar = null;
     Menu navigationMenu = null;
+    View headerLayout = null;
     MenuItem loginOption = null;
     MenuItem logoutOption = null;
     MenuItem memberListOption = null;
     MenuItem viewFeedbackOption = null;
+    CircleImageView profileImage = null;
+    TextView username = null;
+    TextView email = null;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor preferenceEditor;
@@ -42,9 +50,12 @@ public class NavActivity extends AppCompatActivity
         logoutOption = navigationMenu.findItem(R.id.nav_Logout);
         memberListOption = navigationMenu.findItem(R.id.nav_member_list);
         viewFeedbackOption = navigationMenu.findItem(R.id.nav_view_feedback);
+        headerLayout = navigationView.getHeaderView(0);
+        profileImage = (CircleImageView) headerLayout.findViewById(R.id.profile_image);
+        username = (TextView) headerLayout.findViewById(R.id.username);
+        email = (TextView) headerLayout.findViewById(R.id.email);
 
         //Get login information, change UI
-        //preferenceEditor = sharedPreferences.edit();
         sharedPreferences = getApplicationContext().
             getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         setLoginStatus(sharedPreferences.getBoolean(getString(R.string.preference_user_has_login), false));
@@ -212,12 +223,18 @@ public class NavActivity extends AppCompatActivity
             logoutOption.setVisible(true);
             memberListOption.setVisible(true);
             viewFeedbackOption.setVisible(true);
+            username.setText(R.string.header_username_jpsoc);
+            email.setText(R.string.header_email_jpsoc);
+            profileImage.setImageResource(R.drawable.profile);
         }
         else {
             loginOption.setVisible(true);
             logoutOption.setVisible(false);
             memberListOption.setVisible(false);
             viewFeedbackOption.setVisible(false);
+            username.setText(R.string.header_username_default);
+            email.setText(R.string.header_email_default);
+            profileImage.setImageResource(R.drawable.profile_default);
         }
     }
 
