@@ -143,10 +143,10 @@ public class MakeFeedbackRequestTask extends AsyncTask<Void, Void, ArrayList<Fee
          * @throws IOException
          */
     private ArrayList<Feedback> getFullFeedbackListFromSheet() throws IOException {
-        String member_list_sheet_id = context.getString(R.string.feedback_list_sheet_id);
+        String feedback_list_sheet_id = context.getString(R.string.feedback_list_sheet_id);
         ArrayList<Feedback> results = new ArrayList<Feedback>();
         ValueRange response = this.mService.spreadsheets().values()
-                .get(member_list_sheet_id, range)
+                .get(feedback_list_sheet_id, range)
                 .setKey(context.getString(R.string.google_sheet_API_key))
                 .execute();
         List<List<Object>> values = response.getValues();
