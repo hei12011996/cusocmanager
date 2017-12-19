@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.Locale;
  */
 public class MemberListFragment extends Fragment implements RequestTaskResult<ArrayList<Member>>{
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
-
+    private ProgressBar spinner;
     private ArrayList<Member> fullMemberList = new ArrayList<>();
     private String[] memberBasicInfoList;
     private ListView listView;
@@ -44,6 +46,7 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_member_list, container, false);
         inputSearch = (EditText) view.findViewById(R.id.inputSearch);
+        spinner = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         getFullMemberListFromAPI();
 
@@ -99,6 +102,8 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
             }
         });
 
+//        NavigationView navigationView = (NavigationView) this.getActivity().findViewById(R.id.nav_view);
+//        navigationView.getMenu().getItem(3).getSubMenu().getItem(1).setChecked(true);
         // Inflate the layout for this fragment
         return view;
     }
@@ -126,6 +131,7 @@ public class MemberListFragment extends Fragment implements RequestTaskResult<Ar
 
     @Override
     public void taskFinish(ArrayList<Member> results){
+        spinner.setVisibility(View.GONE);
         fullMemberList = new ArrayList<>(results);
         memberBasicInfoList = new String[results.size()];
         for(int i = 0; i < fullMemberList.size(); i++){

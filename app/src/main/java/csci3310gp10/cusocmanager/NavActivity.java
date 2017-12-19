@@ -65,8 +65,9 @@ public class NavActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -169,6 +170,7 @@ public class NavActivity extends AppCompatActivity
                 setLoginStatus(false);
                 Toast.makeText(getApplicationContext(), "Logout successfully", Toast.LENGTH_SHORT).show();
                 changeUIOnLoginStatus();
+                checkLogoutFragment();
             }
         }
         else if (id == R.id.nav_member_list) {
@@ -206,5 +208,10 @@ public class NavActivity extends AppCompatActivity
             logoutOption.setVisible(false);
             memberListOption.setVisible(false);
         }
+    }
+
+    private void checkLogoutFragment(){
+//        Fragment current_fragment = (Fragment)getFragmentManager().findFragmentByTag("MY_FRAGMENT");
+//        System.out.println(current_fragment)
     }
 }

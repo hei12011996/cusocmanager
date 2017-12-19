@@ -13,6 +13,14 @@
         android:hint="Search member.."
         android:inputType="textVisiblePassword" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputSearch"
+        android:layout_centerHorizontal="true" />
+
     <ListView
         android:id="@+id/member_list_view"
         android:layout_width="match_parent"

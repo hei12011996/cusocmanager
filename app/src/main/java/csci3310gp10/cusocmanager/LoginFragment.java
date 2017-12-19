@@ -57,8 +57,15 @@ public class LoginFragment extends Fragment {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     // go back to news fragment
                     NewsFragment fragment = new NewsFragment();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    if(LoginFragment.this.getActivity().getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                        // The first one pop the "login" page from stack
+                        // The second one pop the most bottom "news" page from stack
+                        LoginFragment.this.getActivity().getSupportFragmentManager().popBackStack();
+                        LoginFragment.this.getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = LoginFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.login_fragment));
+                    fragmentTransaction.addToBackStack(getString(R.string.login_fragment));
                     fragmentTransaction.commit();
                 }
                 else {
