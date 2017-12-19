@@ -117,7 +117,7 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
         if (! isDeviceOnline()) {
             Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
-        else if(news.getTitle().length() == 0 || news.getDescription().length() == 0 || news.getImageUrl().length() == 0){
+        else if(news.getTitle().length() == 0 || news.getDescription().length() == 0){
             Toast.makeText(this.getActivity(), "Please fill in the necessary information!", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -128,9 +128,12 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
             }
             else if (mode.equals("create")){
                 news.setRow(last_row + 1);
-                MakeNewsRequestTask updateTask = new MakeNewsRequestTask(this.getActivity(), "create", "News_List", news);
-                updateTask.newsListResult = this;
-                updateTask.execute();
+                long currentTime = System.currentTimeMillis();
+                System.out.println(currentTime);
+                news.setTimeStamp(String.valueOf(currentTime));
+                MakeNewsRequestTask createTask = new MakeNewsRequestTask(this.getActivity(), "create", "News_List", news);
+                createTask.newsListResult = this;
+                createTask.execute();
             }
         }
     }
