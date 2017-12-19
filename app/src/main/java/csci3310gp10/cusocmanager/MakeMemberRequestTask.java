@@ -190,6 +190,7 @@ public class MakeMemberRequestTask extends AsyncTask<Void, Void, ArrayList<Membe
         UpdateValuesResponse result = this.mService.spreadsheets().values().update(spreadsheetId, range, body)
                 .setValueInputOption("USER_ENTERED")
                 .execute();
+        sortMemberListViaAPI();
         results.add(this.member);
         affectedRow = result.getUpdatedRows();
         return results;
