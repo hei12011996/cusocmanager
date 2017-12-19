@@ -27,6 +27,8 @@
     <string name="action_edit_member">Edit Info</string>
     <string name="action_delete_member">Remove Member</string>
     <string name="action_save_member">Update Info</string>
+    <string name="action_edit_news">Edit Details</string>
+    <string name="action_delete_news">Remove News</string>
 
     <string name="nav_title_news">News</string>
     <string name="nav_title_events">Apply Event</string>

@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,6 +42,13 @@ public class NewsDetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        //activate option menu and call
+        NavActivity checkLogin = (NavActivity) this.getActivity();
+        Boolean hasLogin = checkLogin.getLoginStatus();
+        if (hasLogin == true) {
+            setHasOptionsMenu(true);
+        }
+
         //hide fab in detailed page
         FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.fab);
         myFab.hide();
@@ -62,5 +72,28 @@ public class NewsDetailFragment extends Fragment{
         }
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.nav_news_detail, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit_news) {
+            Toast.makeText(getContext(), "edit details", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.action_delete_news){
+            Toast.makeText(getContext(), "delete news", Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 }
