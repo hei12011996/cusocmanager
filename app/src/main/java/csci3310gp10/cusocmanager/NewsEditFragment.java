@@ -106,6 +106,7 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
                 MakeNewsRequestTask updateTask = new MakeNewsRequestTask(this.getActivity(), "update", "News_List", news);
                 updateTask.newsListResult = this;
                 updateTask.execute();
+                Toast.makeText(this.getActivity(), "Sending...", Toast.LENGTH_SHORT).show();
             }
             else if (mode.equals("create")){
                 news.setRow(last_row + 1);
@@ -115,6 +116,7 @@ public class NewsEditFragment extends Fragment implements RequestTaskResult<Arra
                 MakeNewsRequestTask createTask = new MakeNewsRequestTask(this.getActivity(), "create", "News_List", news);
                 createTask.newsListResult = this;
                 createTask.execute();
+                Toast.makeText(this.getActivity(), "Sending...", Toast.LENGTH_SHORT).show();
             }
         }
     }

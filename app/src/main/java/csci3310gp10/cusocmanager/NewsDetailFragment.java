@@ -2,12 +2,14 @@ package csci3310gp10.cusocmanager;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -104,9 +106,23 @@ public class NewsDetailFragment extends Fragment implements RequestTaskResult<Ar
                 Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
             }
             else{
-                MakeNewsRequestTask deleteTask = new MakeNewsRequestTask(this.getActivity(), "delete", "News_List", news);
-                deleteTask.newsListResult = this;
-                deleteTask.execute();
+                new AlertDialog.Builder(this.getActivity())
+                        .setTitle(R.string.confirm_remove)
+                        .setMessage("Are you sure you want to remove News: \n" + news.getTitle())
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                MakeNewsRequestTask deleteTask = new MakeNewsRequestTask(NewsDetailFragment.this.getActivity(), "delete", "News_List", news);
+                                deleteTask.newsListResult = NewsDetailFragment.this;
+                                deleteTask.execute();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
             }
         }
         return true;

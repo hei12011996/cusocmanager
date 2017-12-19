@@ -8,6 +8,8 @@
     <string name="preference_file_key">csci3310gp10.cusocmanager.APP_INTERNAL_FILE</string>
     <string name="preference_user_has_login">hasLogin</string>
 
+    <string name="confirm_remove">Remove Confirmation</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

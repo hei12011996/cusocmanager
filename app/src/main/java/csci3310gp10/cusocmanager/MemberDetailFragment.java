@@ -2,10 +2,12 @@ package csci3310gp10.cusocmanager;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -136,12 +138,14 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
                 MakeMemberRequestTask updateTask = new MakeMemberRequestTask(this.getActivity(), "update", "Member_List", member);
                 updateTask.memberListResult = this;
                 updateTask.execute();
+                Toast.makeText(this.getActivity(), "Sending...", Toast.LENGTH_SHORT).show();
             }
             else if (mode.equals("create")){
                 member.setRow(last_row + 1);
                 MakeMemberRequestTask createTask = new MakeMemberRequestTask(this.getActivity(), "create", "Member_List", member);
                 createTask.memberListResult = this;
                 createTask.execute();
+                Toast.makeText(this.getActivity(), "Sending...", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -151,9 +155,23 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
             Toast.makeText(this.getActivity(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         else{
-            MakeMemberRequestTask deleteTask = new MakeMemberRequestTask(this.getActivity(), "delete", "Member_List", member);
-            deleteTask.memberListResult = this;
-            deleteTask.execute();
+            new AlertDialog.Builder(this.getActivity())
+                    .setTitle(R.string.confirm_remove)
+                    .setMessage("Are you sure you want to remove member:\n" + member.getEnglishName())
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MakeMemberRequestTask deleteTask = new MakeMemberRequestTask(MemberDetailFragment.this.getActivity(), "delete", "Member_List", member);
+                            deleteTask.memberListResult = MemberDetailFragment.this;
+                            deleteTask.execute();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
         }
     }
 
