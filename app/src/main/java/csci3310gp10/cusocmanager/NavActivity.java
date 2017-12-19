@@ -1,12 +1,10 @@
 package csci3310gp10.cusocmanager;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +23,7 @@ public class NavActivity extends AppCompatActivity
     MenuItem loginOption = null;
     MenuItem logoutOption = null;
     MenuItem memberListOption = null;
+    MenuItem viewFeedbackOption = null;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor preferenceEditor;
@@ -41,6 +40,7 @@ public class NavActivity extends AppCompatActivity
         loginOption = navigationMenu.findItem(R.id.nav_Login);
         logoutOption = navigationMenu.findItem(R.id.nav_Logout);
         memberListOption = navigationMenu.findItem(R.id.nav_member_list);
+        viewFeedbackOption = navigationMenu.findItem(R.id.nav_view_feedback);
 
         //Get login information, change UI
         //preferenceEditor = sharedPreferences.edit();
@@ -183,6 +183,16 @@ public class NavActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(getString(R.string.member_list_fragment));
             fragmentTransaction.commit();
         }
+        else if (id == R.id.nav_view_feedback) {
+            FeedbackListFragment fragment = new FeedbackListFragment();
+            if (getSupportFragmentManager().getBackStackEntryCount() >1) {
+                getSupportFragmentManager().popBackStack();
+            }
+            android.support.v4.app.FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.feedback_list_fragment));
+            fragmentTransaction.addToBackStack(getString(R.string.feedback_list_fragment));
+            fragmentTransaction.commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -193,20 +203,20 @@ public class NavActivity extends AppCompatActivity
         this.hasLogin = hasLogin;
     }
 
-    public boolean getLoginStatus() {
-        return hasLogin;
-    }
+    public boolean getLoginStatus() { return hasLogin; }
 
     public void changeUIOnLoginStatus() {
         if (hasLogin) {
             loginOption.setVisible(false);
             logoutOption.setVisible(true);
             memberListOption.setVisible(true);
+            viewFeedbackOption.setVisible(true);
         }
         else {
             loginOption.setVisible(true);
             logoutOption.setVisible(false);
             memberListOption.setVisible(false);
+            viewFeedbackOption.setVisible(false);
         }
     }
 
