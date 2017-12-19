@@ -12,7 +12,7 @@
         android:layout_marginTop="19dp"
         android:textSize="20sp"
         android:fontFamily="sans-serif-condensed"
-        android:text="News"
+        android:text="Create / Edit News"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"/>
 

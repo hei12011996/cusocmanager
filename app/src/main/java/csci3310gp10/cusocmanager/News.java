@@ -86,6 +86,10 @@ public class News implements Parcelable {
         this.timestamp = timestamp;
     }
 
+    public Object[] toArray(){
+        return new Object[] {this.title, this.description, this.image_url, (isEvent ? "Y":"N"), this.timestamp};
+    }
+
     @Override
     public int describeContents() {
         // TODO Auto-generated method stub

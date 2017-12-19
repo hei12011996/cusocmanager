@@ -159,9 +159,9 @@ public class MemberDetailFragment extends Fragment implements RequestTaskResult<
 
 
     /**
-     * Checks whether the device currently has a network connection.
-     * @return true if the device has a network connection, false otherwise.
-     */
+         * Checks whether the device currently has a network connection.
+         * @return true if the device has a network connection, false otherwise.
+         */
     private boolean isDeviceOnline() {
         ConnectivityManager connMgr = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
