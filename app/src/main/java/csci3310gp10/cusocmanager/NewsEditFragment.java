@@ -24,6 +24,9 @@ import java.util.ArrayList;
  */
 public class NewsEditFragment extends Fragment{
 
+    private News news = null;
+    private String mode = "";
+
     public NewsEditFragment() {
         // Required empty public constructor
     }
@@ -35,6 +38,12 @@ public class NewsEditFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_news_edit, container, false);
         setHasOptionsMenu(true);
         Bundle args = getArguments();
+        mode = args.getString("mode");
+        if(mode.equals("edit")) {
+            news = args.getParcelable("item");
+            Toast.makeText(getContext(), news.getDescription(), Toast.LENGTH_SHORT).show();
+        }
+
 
         // Inflate the layout for this fragment
         return view;

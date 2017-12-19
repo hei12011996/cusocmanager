@@ -42,7 +42,7 @@ public class NewsDetailFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        //activate option menu and call
+        //activate option menu
         NavActivity checkLogin = (NavActivity) this.getActivity();
         Boolean hasLogin = checkLogin.getLoginStatus();
         if (hasLogin == true) {
@@ -66,10 +66,6 @@ public class NewsDetailFragment extends Fragment{
             adapter = new NewsItemAdapter(getContext(), 0, fullNewsList, detailPage);
             newsListView.setAdapter(adapter);
         }
-        else if(mode.equals("create")) {
-            news = new News();
-            last_row = args.getInt("last_row");
-        }
 
         return view;
     }
@@ -89,7 +85,15 @@ public class NewsDetailFragment extends Fragment{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_edit_news) {
-            Toast.makeText(getContext(), "edit details", Toast.LENGTH_SHORT).show();
+            NewsEditFragment fragment = new NewsEditFragment();
+            Bundle args = new Bundle();
+            args.putString("mode", "edit");
+            args.putParcelable("item", news);
+            fragment.setArguments(args);
+            android.support.v4.app.FragmentTransaction fragmentTransaction = NewsDetailFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment, getString(R.string.news_edit_fragment));
+            fragmentTransaction.addToBackStack(getString(R.string.news_edit_fragment));
+            fragmentTransaction.commit();
         }
         else if (id == R.id.action_delete_news){
             Toast.makeText(getContext(), "delete news", Toast.LENGTH_SHORT).show();

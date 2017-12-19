@@ -88,7 +88,7 @@ public class NewsFragment extends Fragment implements RequestTaskResult<ArrayLis
         fullNewsList = new ArrayList<>(results);
 
         boolean detailPage = false; //false if this is newsFeed, not detailed ver
-        adapter = new NewsItemAdapter(getContext(), 0, fullNewsList, false);
+        adapter = new NewsItemAdapter(getContext(), 0, fullNewsList, detailPage);
         newsListView.setAdapter(adapter);
 
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

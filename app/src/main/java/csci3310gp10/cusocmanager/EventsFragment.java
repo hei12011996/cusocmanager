@@ -79,8 +79,9 @@ public class EventsFragment extends Fragment implements RequestTaskResult<ArrayL
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 News news = (News)parent.getItemAtPosition(position);
 
-                NewsDetailFragment fragment = new NewsDetailFragment();
+                EventsDetailFragment fragment = new EventsDetailFragment();
                 Bundle args = new Bundle();
+                args.putString("mode", "view");
                 args.putParcelable("item", news);
                 fragment.setArguments(args);
                 android.support.v4.app.FragmentTransaction fragmentTransaction = EventsFragment.this.getActivity().getSupportFragmentManager().beginTransaction();

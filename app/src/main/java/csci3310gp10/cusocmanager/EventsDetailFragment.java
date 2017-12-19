@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +29,11 @@ public class EventsDetailFragment extends Fragment{
     private EventsItemAdapter adapter;
     private ListView newsListView;
 
+
+    private String mode = "";
+    private Integer last_row = 0;
+    private News news = null;
+
     public EventsDetailFragment() {
         // Required empty public constructor
     }
@@ -33,17 +41,55 @@ public class EventsDetailFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
+        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        //activate option menu
+        NavActivity checkLogin = (NavActivity) this.getActivity();
+        Boolean hasLogin = checkLogin.getLoginStatus();
+        if (hasLogin == true) {
+            setHasOptionsMenu(true);
+        }
+
         Bundle args = getArguments();
-        News news = args.getParcelable("item");
-        ArrayList<News> fullNewsList = new ArrayList<>();
-        fullNewsList.add(news);
+        mode = args.getString("mode");
+        if(mode.equals("view")) {
+            news = args.getParcelable("item");
 
-        newsListView = (ListView) view.findViewById(R.id.newsList);
+            ArrayList<News> fullNewsList = new ArrayList<>();
+            fullNewsList.add(news);
 
-        boolean detailPage = true; //true if it is detailed page
-        adapter = new EventsItemAdapter(getContext(), 0, fullNewsList, detailPage);
-        newsListView.setAdapter(adapter);
+            newsListView = (ListView) view.findViewById(R.id.newsList);
+            boolean detailPage = true; //true if it is detailed page
+            adapter = new EventsItemAdapter(getContext(), 0, fullNewsList, detailPage);
+            newsListView.setAdapter(adapter);
+        }
+        else if(mode.equals("create")) {
+            news = new News();
+            last_row = args.getInt("last_row");
+        }
+
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.nav_news_detail, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit_news) {
+            Toast.makeText(getContext(), "edit details", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.action_delete_news){
+            Toast.makeText(getContext(), "delete news", Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 }
